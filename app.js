@@ -783,17 +783,19 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         selectorElement.innerHTML = '';
         filteredInfluencers.forEach(influencer => {
             const card = document.createElement('div');
-            card.className = 'influencer-card p-4 rounded-lg shadow relative';
+            card.className = 'influencer-card p-4 rounded-lg shadow';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             card.setAttribute('aria-label', `Seleccionar influencer ${influencer.name.split('(')[0].trim()}`);
             card.setAttribute('data-influencer-id', influencer.id);
             const platformNames = influencer.platforms.map(p => p.name).slice(0, 2).join(', ');
             card.innerHTML = `
-                <div class="relative">
-                    <h4 class="font-semibold text-center">${influencer.name.split('(')[0].trim()}</h4>
-                    <p class="text-xs text-center mt-1">${platformNames}</p>
+                <div class="absolute top-2 right-2 profile-checkbox-wrapper z-10">
+                    <input type="checkbox" id="profile-${influencer.id}" name="profileSelection" value="${influencer.name}" class="profile-checkbox">
+                    <label for="profile-${influencer.id}" class="profile-checkbox-label" title="Seleccionar"></label>
                 </div>
+                <h4 class="font-semibold text-center">${influencer.name.split('(')[0].trim()}</h4>
+                <p class="text-xs text-center mt-1">${platformNames}</p>
             `;
             
             const selectInfluencer = () => {
@@ -1136,81 +1138,34 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
     }
 
     if (summarizePatternsButton) summarizePatternsButton.addEventListener('click', (e) => {
-        if (influencers.length === 0) {
-            alert("No hay datos para analizar.");
-            return;
-        }
-        const tableDataSummary = influencers.map(inf => `${inf.name}(${inf.language}):P-${inf.description.personality.substring(0,50)} E-${inf.description.esthetics.substring(0,50)} C-${inf.contentType.substring(0,50)}`).join("||");
-        
-        const template = promptTemplates[currentLanguage].summarizePatterns;
-        const prompt = template.template.replace('{{tableDataSummary}}', tableDataSummary);
-        
+        const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
+        const profilesToAnalyze = selectedCheckboxes.length > 0 ? 
+            influencers.filter(inf => Array.from(selectedCheckboxes).map(cb => cb.value).includes(inf.name)) : 
+            influencers;
+        const tableDataSummary = profilesToAnalyze.map(inf => `${inf.name}(${inf.language}):P-${inf.description.personality.substring(0,50)} E-${inf.description.esthetics.substring(0,50)} C-${inf.contentType.substring(0,50)}`).join("||");
+        const prompt = promptTemplates[currentLanguage].summarizePatterns.template.replace('{{tableDataSummary}}', tableDataSummary);
         callGenerativeAPI(prompt, e.target, document.getElementById('summarizePatternsLoading'), document.getElementById('summarizePatternsOutput'));
     });
 
     if (generateIdealAIProfileButton) generateIdealAIProfileButton.addEventListener('click', (e) => {
-        // Check analysis type (all or specific)
-        const analysisTypeAll = document.querySelector('input[name="analysisType"][value="all"]');
-        const useAllInfluencers = analysisTypeAll && analysisTypeAll.checked;
-        
-        let selectedInfluencers = [];
-        
-        if (!useAllInfluencers) {
-            // Get selected influencers from new checkboxes
-            const selectedCheckboxes = document.querySelectorAll('.new-influencer-checkbox:checked');
-            selectedInfluencers = Array.from(selectedCheckboxes).map(checkbox => {
-                return {
-                    id: checkbox.dataset.influencerId,
-                    name: checkbox.dataset.influencerName
-                };
-            });
+        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
+        const conclusionText = promptTemplates[currentLanguage].idealProfile.conclusion;
+        let dynamicConclusion = conclusionText;
+        if (profileNames.length > 0) {
+            dynamicConclusion = (currentLanguage === 'es' ? `Basado en el análisis de perfiles como ${profileNames.join(', ')}, la conclusión es que ` : `Based on profiles like ${profileNames.join(', ')}, the conclusion is `) + conclusionText.toLowerCase();
         }
-
-        let prompt;
-        const template = promptTemplates[currentLanguage].idealProfile;
-        
-        if (!useAllInfluencers && selectedInfluencers.length > 0) {
-            // Custom prompt with selected influencers
-            const selectedNames = selectedInfluencers.map(inf => inf.name).join(', ');
-            const selectedInfluencerData = selectedInfluencers.map(selected => {
-                const fullInfluencer = influencers.find(inf => inf.id === selected.id);
-                return fullInfluencer ? `${fullInfluencer.name}: ${fullInfluencer.description.personality.substring(0, 100)}...` : selected.name;
-            }).join(' | ');
-            
-            prompt = template.template.replace('{{conclusion}}', 
-                `${template.conclusion} 
-                
-                **ENFOQUE PERSONALIZADO**: Prioriza especialmente los rasgos de estos influencers seleccionados: ${selectedNames}.
-                
-                Datos específicos de los seleccionados: ${selectedInfluencerData}`);
-        } else {
-            // Use general analysis (all influencers or none selected)
-            if (!useAllInfluencers && selectedInfluencers.length === 0) {
-                console.log('💡 Maia dice: "No has seleccionado ningún influencer específico. Usando el análisis general de todos los influencers."');
-            }
-            prompt = template.template.replace('{{conclusion}}', template.conclusion);
-        }
-        
-        callGenerativeAPI(prompt, e.target, document.getElementById('idealAIProfileLoading'), document.getElementById('idealAIProfileOutput')).then(() => {
-            document.getElementById('generateTitleSloganButton').disabled = false;
-        });
+        const prompt = promptTemplates[currentLanguage].idealProfile.template.replace('{{conclusion}}', dynamicConclusion);
+        callGenerativeAPI(prompt, e.target, document.getElementById('idealAIProfileLoading'), document.getElementById('idealAIProfileOutput'));
     });
 
     if (generateTitleSloganButton) generateTitleSloganButton.addEventListener('click', (e) => {
-        const idealProfileOutput = document.getElementById('idealAIProfileOutput');
-        let idealProfileText = idealProfileOutput ? idealProfileOutput.textContent : "";
-
-        if (!idealProfileText || idealProfileText.length < 10 || idealProfileText.startsWith("Error")) {
-            const outputDiv = document.getElementById('titleSloganOutput');
-            const template = promptTemplates[currentLanguage].titleSlogan;
-            outputDiv.innerHTML = `<p class='text-red-700'>${template.errorMessage}</p>`;
-            outputDiv.style.display = 'block';
+        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
+        if (profileNames.length === 0) {
+            alert(currentLanguage === 'es' ? 'Por favor, selecciona al menos un perfil para generar un eslogan.' : 'Please select at least one profile to generate a slogan.');
             return;
         }
-
-        const template = promptTemplates[currentLanguage].titleSlogan;
-        const prompt = template.template.replace('{{manifest}}', idealProfileText.substring(0, 500) + "...");
-        
+        const manifestText = `una IA inspirada en las cualidades de comunicación de: ${profileNames.join(', ')}.`;
+        const prompt = promptTemplates[currentLanguage].titleSlogan.template.replace('{{manifest}}', manifestText);
         callGenerativeAPI(prompt, e.target, document.getElementById('titleSloganLoading'), document.getElementById('titleSloganOutput'));
     });
 
