@@ -1158,6 +1158,35 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
     color: var(--accent-blue-hover);
 }
 
+/* Profile checkbox styles for influencer cards */
+.profile-checkbox-wrapper {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-blue);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.profile-checkbox-label {
+    display: block;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Enhanced influencer card styles (without checkbox integration) */
 .influencer-card {
     transition: all 0.3s ease;
