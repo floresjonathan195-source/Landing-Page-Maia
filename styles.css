@@ -1175,6 +1175,8 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
     accent-color: var(--accent-blue);
     border-radius: 4px;
     cursor: pointer;
+    z-index: 11;
+    position: relative;
 }
 
 .profile-checkbox-label {
@@ -1185,6 +1187,7 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 10;
 }
 
 /* Enhanced influencer card styles (without checkbox integration) */
