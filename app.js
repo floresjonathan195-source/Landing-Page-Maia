@@ -1053,6 +1053,9 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         // Initialize new influencer selector
         initializeInfluencerSelector();
 
+        // Initialize AI buttons and verify dependencies - FIX: Added after move
+        initializeAIButtons();
+
         populateComparisonTable();
         showSection('mision');
     }
@@ -1144,6 +1147,7 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         }
     }
 
+    // Fix: Updated AI button event listener to use correct checkbox selector
     if (summarizePatternsButton) summarizePatternsButton.addEventListener('click', (e) => {
         const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
         const profilesToAnalyze = selectedCheckboxes.length > 0 ? 
@@ -1154,6 +1158,7 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         callGenerativeAPI(prompt, e.target, document.getElementById('summarizePatternsLoading'), document.getElementById('summarizePatternsOutput'));
     });
 
+    // Fix: Updated AI button event listener to use correct checkbox selector  
     if (generateIdealAIProfileButton) generateIdealAIProfileButton.addEventListener('click', (e) => {
         const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
         const conclusionText = promptTemplates[currentLanguage].idealProfile.conclusion;
@@ -1165,6 +1170,7 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         callGenerativeAPI(prompt, e.target, document.getElementById('idealAIProfileLoading'), document.getElementById('idealAIProfileOutput'));
     });
 
+    // Fix: Updated AI button event listener to use correct checkbox selector
     if (generateTitleSloganButton) generateTitleSloganButton.addEventListener('click', (e) => {
         const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
         if (profileNames.length === 0) {
@@ -1214,6 +1220,52 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
 
     // Make updateSelectedCount available globally
     window.updateSelectedCount = updateSelectedCount;
+
+    // Function to initialize AI button dependencies and ensure proper state
+    function initializeAIButtons() {
+        // Get AI button elements
+        const summarizePatternsButton = document.getElementById('summarizePatternsButton');
+        const generateIdealAIProfileButton = document.getElementById('generateIdealAIProfileButton');
+        const generateTitleSloganButton = document.getElementById('generateTitleSloganButton');
+        
+        // Get related elements
+        const idealProfileOutput = document.getElementById('idealAIProfileOutput');
+        
+        // Verify all required elements exist
+        if (!summarizePatternsButton) {
+            console.warn('AI Button Missing: summarizePatternsButton element not found');
+        }
+        if (!generateIdealAIProfileButton) {
+            console.warn('AI Button Missing: generateIdealAIProfileButton element not found');
+        }
+        if (!generateTitleSloganButton) {
+            console.warn('AI Button Missing: generateTitleSloganButton element not found');
+        }
+        
+        // Verify loading and output elements exist
+        const requiredElements = [
+            'idealAIProfileLoading', 'idealAIProfileOutput',
+            'titleSloganLoading', 'titleSloganOutput', 
+            'summarizePatternsLoading', 'summarizePatternsOutput'
+        ];
+        
+        requiredElements.forEach(elementId => {
+            if (!document.getElementById(elementId)) {
+                console.warn(`AI Button Dependency Missing: ${elementId} element not found`);
+            }
+        });
+        
+        // Set initial button states
+        if (generateTitleSloganButton && idealProfileOutput) {
+            // Title/slogan button should be disabled initially if no ideal profile exists
+            if (idealProfileOutput.innerHTML.trim() === '') {
+                generateTitleSloganButton.disabled = true;
+                generateTitleSloganButton.classList.add('disabled:bg-disabled-bg');
+            }
+        }
+        
+        console.log('AI buttons initialization completed');
+    }
 
     // Function to reset AI-generated content when language changes
     function resetAIContent() {
