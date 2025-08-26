@@ -529,11 +529,6 @@ The objective is to analyze a summary of data from 16 influencers to identify th
             top: 0,
             behavior: 'smooth'
         });
-
-        if (targetId === 'recursos' && !platformGridRendered && influencers.length > 0) {
-            renderPlatformGrid();
-            platformGridRendered = true;
-        }
     }
 
     navButtons.forEach(button => button.addEventListener('click', () => showSection(button.dataset.target)));
