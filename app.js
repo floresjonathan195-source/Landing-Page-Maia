@@ -806,15 +806,51 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             `;
             
             const selectInfluencer = () => {
-                const previouslySelected = selectorElement.querySelector('.selected');
-                if (previouslySelected) {
-                    previouslySelected.classList.remove('selected');
-                    previouslySelected.setAttribute('aria-selected', 'false');
+                // Fix: Allow multiple selections for AI analysis - toggle behavior instead of exclusive selection
+                const isCurrentlySelected = card.classList.contains('selected');
+                
+                if (isCurrentlySelected) {
+                    // Deselect this influencer
+                    card.classList.remove('selected');
+                    card.setAttribute('aria-selected', 'false');
+                    
+                    // Uncheck the checkbox
+                    const influencerCheckbox = document.getElementById(`profile-${influencer.id}`);
+                    if (influencerCheckbox) {
+                        influencerCheckbox.checked = false;
+                    }
+                    
+                    // Update selection count display
+                    updateInfluencerSelectionCount();
+                    
+                    // Clear the detail display if this was the displayed one
+                    if (detailElement && detailElement.style.display !== 'none') {
+                        detailElement.innerHTML = `
+                            <p class="text-center text-tertiary-text">
+                                <span class="lang-es">Selecciona un modelo para ver sus detalles.</span>
+                                <span class="lang-en hidden">Select a model to see their details.</span>
+                            </p>
+                        `;
+                    }
+                } else {
+                    // Select this influencer (allow multiple selections)
+                    displayInfluencerDetail(influencer, detailElement);
+                    card.classList.add('selected');
+                    card.setAttribute('aria-selected', 'true');
+                    
+                    // Check the checkbox for AI buttons functionality
+                    const influencerCheckbox = document.getElementById(`profile-${influencer.id}`);
+                    if (influencerCheckbox) {
+                        influencerCheckbox.checked = true;
+                    } else {
+                        console.warn(`Checkbox not found for influencer ${influencer.id}`);
+                    }
+                    
+                    // Update selection count display
+                    updateInfluencerSelectionCount();
                 }
-                displayInfluencerDetail(influencer, detailElement);
-                card.classList.add('selected');
-                card.setAttribute('aria-selected', 'true');
-                if (detailElement) {
+                
+                if (detailElement && !isCurrentlySelected) {
                     // Check if the detail element is inside a mobile accordion
                     const accordionContent = detailElement.closest('#hispanas-container, #inglesas-container');
                     const isMobileAccordion = accordionContent && window.innerWidth <= 768;
@@ -1055,6 +1091,9 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
 
         // Initialize AI buttons and verify dependencies - FIX: Added after move
         initializeAIButtons();
+        
+        // Initialize selection count display for AI buttons
+        updateInfluencerSelectionCount();
 
         populateComparisonTable();
         showSection('mision');
@@ -1220,6 +1259,51 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
 
     // Make updateSelectedCount available globally
     window.updateSelectedCount = updateSelectedCount;
+
+    // Function to update influencer selection count display
+    function updateInfluencerSelectionCount() {
+        const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
+        const selectedCount = selectedCheckboxes.length;
+        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.value);
+        
+        // Update or create selection indicator near AI buttons
+        let selectionIndicator = document.getElementById('influencer-selection-indicator');
+        if (!selectionIndicator) {
+            // Create the indicator element and insert it before the AI buttons
+            const aiButtonsContainer = document.querySelector('[id*="generateIdealAIProfileButton"]')?.closest('.mt-8');
+            if (aiButtonsContainer) {
+                selectionIndicator = document.createElement('div');
+                selectionIndicator.id = 'influencer-selection-indicator';
+                selectionIndicator.className = 'mb-4 p-3 bg-secondary-dark border border-accent-gold/30 rounded-lg text-sm';
+                aiButtonsContainer.insertBefore(selectionIndicator, aiButtonsContainer.firstChild);
+            }
+        }
+        
+        if (selectionIndicator) {
+            if (selectedCount > 0) {
+                selectionIndicator.innerHTML = `
+                    <div class="text-accent-gold font-medium mb-1">
+                        <span class="lang-es">Perfiles seleccionados para análisis de IA: ${selectedCount}</span>
+                        <span class="lang-en hidden">Profiles selected for AI analysis: ${selectedCount}</span>
+                    </div>
+                    <div class="text-xs text-tertiary-text">
+                        ${selectedNames.join(', ')}
+                    </div>
+                `;
+                selectionIndicator.style.display = 'block';
+            } else {
+                selectionIndicator.innerHTML = `
+                    <div class="text-tertiary-text text-center">
+                        <span class="lang-es">💡 Haz clic en los influencers arriba para seleccionarlos para el análisis de IA</span>
+                        <span class="lang-en hidden">💡 Click on influencers above to select them for AI analysis</span>
+                    </div>
+                `;
+                selectionIndicator.style.display = 'block';
+            }
+        }
+        
+        console.log(`Selected influencers for AI analysis: ${selectedCount} (${selectedNames.join(', ')})`);
+    }
 
     // Function to initialize AI button dependencies and ensure proper state
     function initializeAIButtons() {
