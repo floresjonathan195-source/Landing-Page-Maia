@@ -152,8 +152,13 @@
                 <span class="lang-en hidden">The Vision Behind the Report</span>
             </h2>
             <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
-                <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white flex-shrink-0">
-                    <img src="images/Jon.png" alt="Jon Efe" class="w-full h-full object-cover" loading="lazy">
+                <div class="flex flex-col items-center space-y-4">
+                    <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white flex-shrink-0">
+                        <img src="images/Jon.png" alt="Jon Efe" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-accent-gold flex-shrink-0">
+                        <img src="images/maia-avatar.png" alt="Maia Kode" class="w-full h-full object-cover" loading="lazy">
+                    </div>
                 </div>
                 <div class="text-secondary-text leading-relaxed">
                     <p class="font-bold">
@@ -266,72 +271,8 @@
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section id="futuro" class="content-section bg-secondary-dark p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold text-accent-gold mb-4">
-                <span class="lang-es">Conclusiones y Próximos Pasos</span>
-                <span class="lang-en hidden">Conclusions and Next Steps</span>
-            </h2>
-            <p class="text-secondary-text leading-relaxed">
-                <span class="lang-es">El estudio de estos 16 referentes nos ha permitido definir un arquetipo de IA que no solo educa, sino que también inspira. Un perfil geek-didáctico, con un toque humano y una voz auténtica que resuena con una comunidad que busca el crecimiento. Aquí puedes usar la IA para sintetizar estos hallazgos.</span>
-                <span class="lang-en hidden">The study of these 16 references has allowed us to define an AI archetype that not only educates but also inspires. A didactic-geek profile, with a human touch and an authentic voice that resonates with a community seeking growth. Here you can use the AI to synthesize these findings.</span>
-            </p>
-
-            <!-- Influencer Selection Interface -->
-            <div class="mt-8 mb-8 p-6 bg-tertiary-dark rounded-lg border border-border-color">
-                <h3 class="text-xl font-semibold text-accent-gold mb-4">
-                    <span class="lang-es">Personaliza tu análisis:</span>
-                    <span class="lang-en hidden">Customize your analysis:</span>
-                </h3>
-                
-                <!-- Radio Button Options -->
-                <div class="mb-6">
-                    <div class="space-y-3">
-                        <label class="flex items-center cursor-pointer">
-                            <input type="radio" name="analysisType" value="all" class="mr-3 text-accent-blue focus:ring-accent-blue" checked>
-                            <span class="text-primary-text">
-                                <span class="lang-es">Usar todos los influencers (análisis general)</span>
-                                <span class="lang-en hidden">Use all influencers (general analysis)</span>
-                            </span>
-                        </label>
-                        <label class="flex items-center cursor-pointer">
-                            <input type="radio" name="analysisType" value="specific" class="mr-3 text-accent-blue focus:ring-accent-blue">
-                            <span class="text-primary-text">
-                                <span class="lang-es">Seleccionar influencers específicos</span>
-                                <span class="lang-en hidden">Select specific influencers</span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Specific Influencer Selection (hidden by default) -->
-                <div id="specificInfluencerSelection" class="hidden">
-                    <div class="mb-4">
-                        <p class="text-secondary-text mb-3">
-                            <span class="lang-es">Selecciona los influencers que quieres incluir en el análisis:</span>
-                            <span class="lang-en hidden">Select the influencers you want to include in the analysis:</span>
-                        </p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-accent-gold font-medium">
-                                <span id="selectedCount">0</span>
-                                <span class="lang-es">influencers seleccionados</span>
-                                <span class="lang-en hidden">influencers selected</span>
-                            </span>
-                            <button id="selectAllInfluencers" type="button" class="text-accent-blue hover:text-accent-blue-hover underline text-sm">
-                                <span class="lang-es">Seleccionar todos</span>
-                                <span class="lang-en hidden">Select all</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Influencer List with Checkboxes -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="influencerCheckboxList">
-                        <!-- This will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-
+            <!-- Moved AI Buttons from futuro and recursos sections -->
             <div class="mt-8 space-y-6">
                 <div>
                     <h3 class="text-xl font-semibold text-accent-gold mb-2">
@@ -360,6 +301,45 @@
                     </div>
                     <div id="titleSloganLoading" class="loading-spinner" style="display: none;"></div>
                     <div id="titleSloganOutput" class="api-output" style="display: none;" aria-live="polite"></div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-accent-gold mb-2">
+                        <span class="lang-es">Resumir Patrones Clave</span>
+                        <span class="lang-en hidden">Summarize Key Patterns</span>
+                    </h3>
+                    <div class="ai-btn-voltage">
+                        <button id="summarizePatternsButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg">
+                            <span class="lang-es">✨ Resumir Patrones Clave</span>
+                            <span class="lang-en hidden">✨ Summarize Key Patterns</span>
+                        </button>
+                    </div>
+                    <div id="summarizePatternsLoading" class="loading-spinner" style="display: none;"></div>
+                    <div id="summarizePatternsOutput" class="api-output" style="display: none;" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="futuro" class="content-section bg-secondary-dark p-6 rounded-lg shadow-lg">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-accent-gold mb-6">
+                    <span class="lang-es">¡Únete a la Academia de Maia Kode!</span>
+                    <span class="lang-en hidden">Join the Maia Kode Academy!</span>
+                </h2>
+                <p class="text-xl text-secondary-text mb-8 leading-relaxed">
+                    <span class="lang-es">Descubre el futuro de la educación digital con nuestra IA revolucionaria. Aprende, crece y transforma tu carrera con tecnología de vanguardia.</span>
+                    <span class="lang-en hidden">Discover the future of digital education with our revolutionary AI. Learn, grow and transform your career with cutting-edge technology.</span>
+                </p>
+                <div class="space-y-4">
+                    <div class="ai-btn-voltage">
+                        <a href="https://aprendehabilidadesdigitales.com" target="_blank" class="voltage-button cta-button text-lg px-8 py-4">
+                            <span class="lang-es">🚀 Acceder a la Academia</span>
+                            <span class="lang-en hidden">🚀 Access the Academy</span>
+                        </a>
+                    </div>
+                    <p class="text-sm text-tertiary-text">
+                        <span class="lang-es">Únete a miles de estudiantes que ya están transformando su futuro</span>
+                        <span class="lang-en hidden">Join thousands of students who are already transforming their future</span>
+                    </p>
                 </div>
             </div>
         </section>
@@ -445,20 +425,9 @@
                 <span class="lang-en hidden">Report Data and Resources</span>
             </h2>
             <p class="mb-6 text-secondary-text leading-relaxed">
-                <span class="lang-es">Explora los datos clave de cada influencer. Usa el botón para que la IA identifique patrones y los aplique al perfil de Maia Kode.</span>
-                <span class="lang-en hidden">Explore the key data of each influencer. Use the button for the AI to identify patterns and apply them to Maia Kode's profile.</span>
+                <span class="lang-es">Explora los datos clave de cada influencer y las visualizaciones interactivas del análisis de Maia Kode.</span>
+                <span class="lang-en hidden">Explore the key data of each influencer and the interactive visualizations of Maia Kode's analysis.</span>
             </p>
-
-            <div class="mb-8">
-                <div class="ai-btn-voltage">
-                    <button id="summarizePatternsButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg">
-                        <span class="lang-es">✨ Resumir Patrones Clave</span>
-                        <span class="lang-en hidden">✨ Summarize Key Patterns</span>
-                    </button>
-                </div>
-                <div id="summarizePatternsLoading" class="loading-spinner" style="display: none;"></div>
-                <div id="summarizePatternsOutput" class="api-output" style="display: none;" aria-live="polite"></div>
-            </div>
 
             <h3 class="text-xl font-semibold text-accent-gold mb-4">
                 <span class="lang-es">Popularidad de Plataformas</span>
