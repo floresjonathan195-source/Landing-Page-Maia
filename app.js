@@ -336,6 +336,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
                 server: "🔧 El servidor está temporalmente no disponible. Intenta en unos minutos.",
                 quota: "⚠️ Se ha alcanzado el límite de solicitudes. Intenta más tarde.",
                 invalid: "❌ Solicitud inválida. Por favor, intenta de nuevo.",
+                development: "🛠️ Funcionalidad de IA no disponible en modo desarrollo. La funcionalidad estará activa en producción.",
                 generic: "💫 Algo inesperado ocurrió. Maia está trabajando en resolverlo."
             },
             en: {
@@ -344,6 +345,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
                 server: "🔧 Server temporarily unavailable. Try again in a few minutes.",
                 quota: "⚠️ Request limit reached. Please try later.",
                 invalid: "❌ Invalid request. Please try again.",
+                development: "🛠️ AI functionality not available in development mode. Functionality will be active in production.",
                 generic: "💫 Something unexpected happened. Maia is working on fixing it."
             }
         };
@@ -353,6 +355,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
         if (error.includes('timeout') || error.includes('408')) return lang.timeout;
         if (error.includes('network') || error.includes('connection')) return lang.network;
         if (error.includes('500') || error.includes('502') || error.includes('503')) return lang.server;
+        if (error.includes('501') || error.includes('Not Found') || error.includes('Unsupported method')) return lang.development;
         if (error.includes('429') || error.includes('quota')) return lang.quota;
         if (error.includes('400') || error.includes('invalid')) return lang.invalid;
         
@@ -439,6 +442,15 @@ The objective is to analyze a summary of data from 16 influencers to identify th
                     const sanitizedHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(htmlOutput) : htmlOutput;
                     if (outputDiv) {
                         outputDiv.innerHTML = sanitizedHTML;
+                        
+                        // Enable title/slogan button if this is the ideal profile output
+                        if (outputDiv.id === 'idealAIProfileOutput') {
+                            const titleSloganButton = document.getElementById('generateTitleSloganButton');
+                            if (titleSloganButton) {
+                                titleSloganButton.disabled = false;
+                                titleSloganButton.classList.remove('disabled:bg-disabled-bg');
+                            }
+                        }
                         
                         // Update accordion height on mobile if content is within an accordion
                         if (window.innerWidth <= 768) {
