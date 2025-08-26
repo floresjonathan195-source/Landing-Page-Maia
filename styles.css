@@ -1158,6 +1158,33 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
     color: var(--accent-blue-hover);
 }
 
+/* --- Estilos para Checkbox de Perfil --- */
+.profile-checkbox-wrapper { opacity: 0.7; transition: opacity 0.3s ease; }
+.influencer-card:hover .profile-checkbox-wrapper { opacity: 1; }
+.profile-checkbox { display: none; }
+.profile-checkbox-label {
+    display: block; width: 32px; height: 32px;
+    background-color: rgba(13, 17, 23, 0.7);
+    border: 2px solid var(--border-color);
+    border-radius: 50%; cursor: pointer; position: relative;
+    transition: all 0.3s ease;
+}
+.profile-checkbox-label:hover { border-color: var(--accent-blue); }
+.profile-checkbox-label::after {
+    content: '✔'; color: var(--accent-gold);
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 18px; font-weight: bold;
+    transition: transform 0.2s ease;
+}
+.profile-checkbox:checked + .profile-checkbox-label {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-gold);
+}
+.profile-checkbox:checked + .profile-checkbox-label::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
 /* Enhanced influencer card styles (without checkbox integration) */
 .influencer-card {
     transition: all 0.3s ease;
