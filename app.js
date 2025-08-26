@@ -331,34 +331,24 @@ The objective is to analyze a summary of data from 16 influencers to identify th
     function createUserFriendlyErrorMessage(error, language = 'es') {
         const messages = {
             es: {
-                timeout: "⏱️ La solicitud tardó demasiado. Por favor, intenta de nuevo.",
-                network: "🌐 Error de conexión. Verifica tu internet e intenta nuevamente.",
-                server: "🔧 El servidor está temporalmente no disponible. Intenta en unos minutos.",
-                quota: "⚠️ Se ha alcanzado el límite de solicitudes. Intenta más tarde.",
-                invalid: "❌ Solicitud inválida. Por favor, intenta de nuevo.",
-const messages = {
-    es: {
-        timeout: "⏱️ La solicitud tomó demasiado tiempo. Por favor, inténtalo de nuevo.",
-        network: "🌐 Error de conexión. Verifica tu internet e inténtalo nuevamente.",
-        server: "🔧 El servidor está temporalmente no disponible. Inténtalo en unos minutos.",
-        quota: "⚠️ Límite de solicitudes alcanzado. Por favor, intenta más tarde.",
-        invalid: "❌ Solicitud inválida. Por favor, inténtalo nuevamente.",
-        api_unavailable: "🤖 Las funciones de IA requieren el entorno de Netlify con API keys configuradas. Disponible solo en producción.",
-        development: "🛠️ Funcionalidad de IA no disponible en modo desarrollo. La funcionalidad estará activa en producción.",
-        generic: "💫 Algo inesperado ocurrió. Maia está trabajando en resolverlo."
-    },
-    en: {
-        timeout: "⏱️ Request took too long. Please try again.",
-        network: "🌐 Connection error. Check your internet and try again.",
-        server: "🔧 Server temporarily unavailable. Try again in a few minutes.",
-        quota: "⚠️ Request limit reached. Please try later.",
-        invalid: "❌ Invalid request. Please try again.",
-        api_unavailable: "🤖 AI functions require Netlify environment with API keys configured. Available only on the production website.",
-        development: "🛠️ AI functionality not available in development mode. Functionality will be active in production.",
-        generic: "💫 Something unexpected happened. Maia is working on it."
-    }
-};
-                generic: "💫 Something unexpected happened. Maia is working on fixing it."
+                timeout: "⏱️ La solicitud tomó demasiado tiempo. Por favor, inténtalo de nuevo.",
+                network: "🌐 Error de conexión. Verifica tu internet e inténtalo nuevamente.",
+                server: "🔧 El servidor está temporalmente no disponible. Inténtalo en unos minutos.",
+                quota: "⚠️ Límite de solicitudes alcanzado. Por favor, intenta más tarde.",
+                invalid: "❌ Solicitud inválida. Por favor, inténtalo nuevamente.",
+                api_unavailable: "🤖 Las funciones de IA requieren el entorno de Netlify con API keys configuradas. Disponible solo en producción.",
+                development: "🛠️ Funcionalidad de IA no disponible en modo desarrollo. La funcionalidad estará activa en producción.",
+                generic: "💫 Algo inesperado ocurrió. Maia está trabajando en resolverlo."
+            },
+            en: {
+                timeout: "⏱️ Request took too long. Please try again.",
+                network: "🌐 Connection error. Check your internet and try again.",
+                server: "🔧 Server temporarily unavailable. Try again in a few minutes.",
+                quota: "⚠️ Request limit reached. Please try later.",
+                invalid: "❌ Invalid request. Please try again.",
+                api_unavailable: "🤖 AI functions require Netlify environment with API keys configured. Available only on the production website.",
+                development: "🛠️ AI functionality not available in development mode. Functionality will be active in production.",
+                generic: "💫 Something unexpected happened. Maia is working on it."
             }
         };
 
