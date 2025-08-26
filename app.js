@@ -336,6 +336,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
                 server: "🔧 El servidor está temporalmente no disponible. Intenta en unos minutos.",
                 quota: "⚠️ Se ha alcanzado el límite de solicitudes. Intenta más tarde.",
                 invalid: "❌ Solicitud inválida. Por favor, intenta de nuevo.",
+                api_unavailable: "🤖 Las funciones de IA requieren el entorno de Netlify con API keys configuradas. Esta funcionalidad estará disponible en el sitio web de producción.",
                 generic: "💫 Algo inesperado ocurrió. Maia está trabajando en resolverlo."
             },
             en: {
@@ -344,6 +345,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
                 server: "🔧 Server temporarily unavailable. Try again in a few minutes.",
                 quota: "⚠️ Request limit reached. Please try later.",
                 invalid: "❌ Invalid request. Please try again.",
+                api_unavailable: "🤖 AI functions require Netlify environment with API keys configured. This functionality will be available on the production website.",
                 generic: "💫 Something unexpected happened. Maia is working on fixing it."
             }
         };
@@ -352,6 +354,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
         
         if (error.includes('timeout') || error.includes('408')) return lang.timeout;
         if (error.includes('network') || error.includes('connection')) return lang.network;
+        if (error.includes('501') || error.includes('405') || error.includes('Method')) return lang.api_unavailable;
         if (error.includes('500') || error.includes('502') || error.includes('503')) return lang.server;
         if (error.includes('429') || error.includes('quota')) return lang.quota;
         if (error.includes('400') || error.includes('invalid')) return lang.invalid;
