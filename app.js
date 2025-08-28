@@ -1069,45 +1069,59 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         });
     }
 
+    // Function to populate simple influencer grids
+    function populateSimpleInfluencerGrids() {
+        const spanishGrid = document.getElementById('spanishInfluencersGrid');
+        const englishGrid = document.getElementById('englishInfluencersGrid');
+        
+        if (!spanishGrid || !englishGrid) return;
+        
+        // Clear existing content
+        spanishGrid.innerHTML = '';
+        englishGrid.innerHTML = '';
+        
+        // Filter and populate Spanish speakers
+        const spanishInfluencers = influencers.filter(inf => inf.language === 'Español');
+        spanishInfluencers.forEach(influencer => {
+            const card = createSimpleInfluencerCard(influencer);
+            spanishGrid.appendChild(card);
+        });
+        
+        // Filter and populate English speakers  
+        const englishInfluencers = influencers.filter(inf => inf.language === 'Ingles');
+        englishInfluencers.forEach(influencer => {
+            const card = createSimpleInfluencerCard(influencer);
+            englishGrid.appendChild(card);
+        });
+    }
+    
+    // Function to create a simple influencer card
+    function createSimpleInfluencerCard(influencer) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'simple-influencer-card';
+        
+        // Extract clean name without parentheses
+        const cleanName = influencer.name.split('(')[0].trim();
+        
+        cardDiv.innerHTML = `
+            <img src="${influencer.image}" alt="${cleanName}" onerror="this.style.backgroundColor='#2A2A2A'; this.style.color='#FFC777'; this.innerHTML='<div style=\\'display:flex;align-items:center;justify-content:center;height:100%;font-weight:bold;text-align:center;\\'>${cleanName}</div>'">
+            <div class="name">${cleanName}</div>
+        `;
+        
+        return cardDiv;
+    }
+
     async function initializeApp() {
         influencers = await loadInfluencerData();
         if (!Array.isArray(influencers) || influencers.length === 0) return;
         
-        // Populate mobile accordion versions
-        populateInfluencerSection("Español", influencerSelectorHispanas, influencerDetailHispanas);
-        populateInfluencerSection("Ingles", influencerSelectorInglesas, influencerDetailInglesas);
-        
-        // Populate desktop versions if they exist
-        const influencerSelectorHispanasDesktop = document.getElementById('influencerSelectorHispanasDesktop');
-        const influencerDetailHispanasDesktop = document.getElementById('influencerDetailHispanasDesktop');
-        const influencerSelectorInglesasDesktop = document.getElementById('influencerSelectorInglesasDesktop');
-        const influencerDetailInglesasDesktop = document.getElementById('influencerDetailInglesasDesktop');
-        
-        if (influencerSelectorHispanasDesktop && influencerDetailHispanasDesktop) {
-            populateInfluencerSection("Español", influencerSelectorHispanasDesktop, influencerDetailHispanasDesktop);
-        }
-        if (influencerSelectorInglesasDesktop && influencerDetailInglesasDesktop) {
-            populateInfluencerSection("Ingles", influencerSelectorInglesasDesktop, influencerDetailInglesasDesktop);
-        }
+        // Populate new simple influencer grids
+        populateSimpleInfluencerGrids();
 
-        // Initialize mobile accordion functionality
-        initializeMobileAccordion();
-
-        // Initialize new influencer selector
-        initializeInfluencerSelector();
-
-        // Initialize single-page checkbox grid
-        populateInfluencerCheckboxGrid();
-        initializeSelectAllButton();
-
-        // Initialize AI buttons and verify dependencies - FIX: Added after move
+        // Initialize AI buttons - only the main one now
         initializeAIButtons();
-        
-        // Initialize selection count display for AI buttons
-        updateInfluencerSelectionCount();
 
         populateComparisonTable();
-        // showSection('mision'); // Disabled for single-page layout
     }
 
     // Function to populate the influencer checkbox grid for single-page layout
@@ -1274,39 +1288,20 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         }
     }
 
-    // Fix: Updated AI button event listener to use correct checkbox selector
-    if (summarizePatternsButton) summarizePatternsButton.addEventListener('click', (e) => {
-        const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
-        const profilesToAnalyze = selectedCheckboxes.length > 0 ? 
-            influencers.filter(inf => Array.from(selectedCheckboxes).map(cb => cb.value).includes(inf.name)) : 
-            influencers;
-        const tableDataSummary = profilesToAnalyze.map(inf => `${inf.name}(${inf.language}):P-${inf.description.personality.substring(0,50)} E-${inf.description.esthetics.substring(0,50)} C-${inf.contentType.substring(0,50)}`).join("||");
-        const prompt = promptTemplates[currentLanguage].summarizePatterns.template.replace('{{tableDataSummary}}', tableDataSummary);
-        callGenerativeAPI(prompt, e.target, document.getElementById('summarizePatternsLoading'), document.getElementById('summarizePatternsOutput'));
-    });
+    // Removed other AI button listeners as per requirements - only keeping main AI profile generation button
+    // if (summarizePatternsButton) - button removed
+    // if (generateTitleSloganButton) - button removed
 
     // Fix: Updated AI button event listener to use correct checkbox selector  
     if (generateIdealAIProfileButton) generateIdealAIProfileButton.addEventListener('click', (e) => {
-        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
+        // Use all 16 influencers automatically
+        const allProfileNames = influencers.map(inf => inf.name.split('(')[0].trim());
         const conclusionText = promptTemplates[currentLanguage].idealProfile.conclusion;
-        let dynamicConclusion = conclusionText;
-        if (profileNames.length > 0) {
-            dynamicConclusion = (currentLanguage === 'es' ? `Basado en el análisis de perfiles como ${profileNames.join(', ')}, la conclusión es que ` : `Based on profiles like ${profileNames.join(', ')}, the conclusion is `) + conclusionText.toLowerCase();
-        }
+        const dynamicConclusion = (currentLanguage === 'es' ? 
+            `Basado en el análisis de los 16 perfiles de influencers seleccionados: ${allProfileNames.join(', ')}, la conclusión es que ` : 
+            `Based on analysis of the 16 selected influencer profiles: ${allProfileNames.join(', ')}, the conclusion is `) + conclusionText.toLowerCase();
         const prompt = promptTemplates[currentLanguage].idealProfile.template.replace('{{conclusion}}', dynamicConclusion);
         callGenerativeAPI(prompt, e.target, document.getElementById('idealAIProfileLoading'), document.getElementById('idealAIProfileOutput'));
-    });
-
-    // Fix: Updated AI button event listener to use correct checkbox selector
-    if (generateTitleSloganButton) generateTitleSloganButton.addEventListener('click', (e) => {
-        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
-        if (profileNames.length === 0) {
-            alert(currentLanguage === 'es' ? 'Por favor, selecciona al menos un perfil para generar un eslogan.' : 'Please select at least one profile to generate a slogan.');
-            return;
-        }
-        const manifestText = `una IA inspirada en las cualidades de comunicación de: ${profileNames.join(', ')}.`;
-        const prompt = promptTemplates[currentLanguage].titleSlogan.template.replace('{{manifest}}', manifestText);
-        callGenerativeAPI(prompt, e.target, document.getElementById('titleSloganLoading'), document.getElementById('titleSloganOutput'));
     });
 
     // Global function to update language from index.html
@@ -1319,107 +1314,24 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         // Reset AI-generated content and button states
         resetAIContent();
         
-        // Refresh influencer checkbox list for new language
+        // Refresh simple influencer grids for new language  
         if (influencers.length > 0) {
-            populateInfluencerCheckboxList();
-        }
-        
-        // Find currently selected influencers and refresh their details
-        const selectedHispana = document.querySelector('#influencerSelectorHispanas .selected');
-        const selectedInglesa = document.querySelector('#influencerSelectorInglesas .selected');
-        
-        if (selectedHispana) {
-            const influencerId = selectedHispana.dataset.influencerId;
-            const influencer = influencers.find(inf => inf.id == influencerId);
-            if (influencer) {
-                displayInfluencerDetail(influencer, influencerDetailHispanas);
-            }
-        }
-        
-        if (selectedInglesa) {
-            const influencerId = selectedInglesa.dataset.influencerId;
-            const influencer = influencers.find(inf => inf.id == influencerId);
-            if (influencer) {
-                displayInfluencerDetail(influencer, influencerDetailInglesas);
-            }
+            populateSimpleInfluencerGrids();
         }
     };
 
-    // Make updateSelectedCount available globally
-    window.updateSelectedCount = updateSelectedCount;
-
-    // Function to update influencer selection count display
-    function updateInfluencerSelectionCount() {
-        const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
-        const selectedCount = selectedCheckboxes.length;
-        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.value);
-        
-        // Update or create selection indicator near AI buttons
-        let selectionIndicator = document.getElementById('influencer-selection-indicator');
-        if (!selectionIndicator) {
-            // Create the indicator element and insert it before the AI buttons
-            const aiButtonsContainer = document.querySelector('[id*="generateIdealAIProfileButton"]')?.closest('.mt-8');
-            if (aiButtonsContainer) {
-                selectionIndicator = document.createElement('div');
-                selectionIndicator.id = 'influencer-selection-indicator';
-                selectionIndicator.className = 'mb-4 p-3 bg-secondary-dark border border-accent-gold/30 rounded-lg text-sm';
-                aiButtonsContainer.insertBefore(selectionIndicator, aiButtonsContainer.firstChild);
-            }
-        }
-        
-        if (selectionIndicator) {
-            if (selectedCount > 0) {
-                selectionIndicator.innerHTML = `
-                    <div class="text-accent-gold font-medium mb-1">
-                        <span class="lang-es">Perfiles seleccionados para análisis de IA: ${selectedCount}</span>
-                        <span class="lang-en hidden">Profiles selected for AI analysis: ${selectedCount}</span>
-                    </div>
-                    <div class="text-xs text-tertiary-text">
-                        ${selectedNames.join(', ')}
-                    </div>
-                `;
-                selectionIndicator.style.display = 'block';
-            } else {
-                selectionIndicator.innerHTML = `
-                    <div class="text-tertiary-text text-center">
-                        <span class="lang-es">💡 Haz clic en los influencers arriba para seleccionarlos para el análisis de IA</span>
-                        <span class="lang-en hidden">💡 Click on influencers above to select them for AI analysis</span>
-                    </div>
-                `;
-                selectionIndicator.style.display = 'block';
-            }
-        }
-        
-        console.log(`Selected influencers for AI analysis: ${selectedCount} (${selectedNames.join(', ')})`);
-    }
-
     // Function to initialize AI button dependencies and ensure proper state
     function initializeAIButtons() {
-        // Get AI button elements
-        const summarizePatternsButton = document.getElementById('summarizePatternsButton');
+        // Get AI button element (only one now)
         const generateIdealAIProfileButton = document.getElementById('generateIdealAIProfileButton');
-        const generateTitleSloganButton = document.getElementById('generateTitleSloganButton');
         
-        // Get related elements
-        const idealProfileOutput = document.getElementById('idealAIProfileOutput');
-        
-        // Verify all required elements exist
-        if (!summarizePatternsButton) {
-            console.warn('AI Button Missing: summarizePatternsButton element not found');
-        }
+        // Verify required elements exist
         if (!generateIdealAIProfileButton) {
             console.warn('AI Button Missing: generateIdealAIProfileButton element not found');
         }
-        if (!generateTitleSloganButton) {
-            console.warn('AI Button Missing: generateTitleSloganButton element not found');
-        }
         
         // Verify loading and output elements exist
-        const requiredElements = [
-            'idealAIProfileLoading', 'idealAIProfileOutput',
-            'titleSloganLoading', 'titleSloganOutput', 
-            'summarizePatternsLoading', 'summarizePatternsOutput'
-        ];
+        const requiredElements = ['idealAIProfileLoading', 'idealAIProfileOutput'];
         
         requiredElements.forEach(elementId => {
             if (!document.getElementById(elementId)) {
@@ -1427,26 +1339,13 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Set initial button states
-        if (generateTitleSloganButton && idealProfileOutput) {
-            // Title/slogan button should be disabled initially if no ideal profile exists
-            if (idealProfileOutput.innerHTML.trim() === '') {
-                generateTitleSloganButton.disabled = true;
-                generateTitleSloganButton.classList.add('disabled:bg-disabled-bg');
-            }
-        }
-        
-        console.log('AI buttons initialization completed');
+        console.log('AI button initialization completed');
     }
 
     // Function to reset AI-generated content when language changes
     function resetAIContent() {
-        // Reset AI output containers
-        const aiOutputContainers = [
-            'idealAIProfileOutput',
-            'titleSloganOutput', 
-            'summarizePatternsOutput'
-        ];
+        // Reset AI output containers (simplified for single button)
+        const aiOutputContainers = ['idealAIProfileOutput'];
         
         aiOutputContainers.forEach(containerId => {
             const container = document.getElementById(containerId);
@@ -1456,12 +1355,8 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Reset loading spinners
-        const loadingContainers = [
-            'idealAIProfileLoading',
-            'titleSloganLoading',
-            'summarizePatternsLoading'
-        ];
+        // Reset loading spinners (simplified for single button)
+        const loadingContainers = ['idealAIProfileLoading'];
         
         loadingContainers.forEach(containerId => {
             const container = document.getElementById(containerId);
@@ -1470,26 +1365,11 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Reset button states - enable disabled buttons
-        const aiButtons = [
-            'generateIdealAIProfileButton',
-            'generateTitleSloganButton',
-            'summarizePatternsButton'
-        ];
-        
-        aiButtons.forEach(buttonId => {
-            const button = document.getElementById(buttonId);
-            if (button) {
-                button.disabled = false;
-                button.classList.remove('disabled:bg-disabled-bg');
-            }
-        });
-        
-        // Special handling for titleSlogan button which depends on ideal profile
-        const titleSloganButton = document.getElementById('generateTitleSloganButton');
-        const idealProfileOutput = document.getElementById('idealAIProfileOutput');
-        if (titleSloganButton && idealProfileOutput && idealProfileOutput.innerHTML.trim() === '') {
-            titleSloganButton.disabled = true;
+        // Reset button state (simplified for single button)
+        const button = document.getElementById('generateIdealAIProfileButton');
+        if (button) {
+            button.disabled = false;
+            button.classList.remove('disabled:bg-disabled-bg');
         }
     }
 
