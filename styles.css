@@ -232,6 +232,23 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
     color: var(--tertiary-text);
 }
 
+/* --- SIMPLE INFLUENCER CARDS --- */
+.simple-influencer-card {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.simple-influencer-card h4 {
+    color: var(--accent-gold);
+    transition: color 0.2s ease;
+    margin: 0;
+    font-size: 0.9rem;
+}
+.simple-influencer-card:hover h4 {
+    color: var(--accent-blue);
+}
+
 .audio-summary-trigger { color: var(--accent-blue); }
 .audio-summary-trigger:hover { color: var(--accent-blue-hover); }
 

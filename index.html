@@ -291,47 +291,62 @@
                 <span class="lang-en hidden">The Inspiration</span>
             </h2>
             <p class="mb-8 text-secondary-text leading-relaxed text-center max-w-4xl mx-auto text-lg">
-                <span class="lang-es">Para definir los pilares de Maia, estudiamos a las mentes más brillantes de la divulgación. Estos 16 perfiles inspiraron su futura personalidad, estética y contenido.</span>
-                <span class="lang-en hidden">To define Maia's pillars, we studied the brightest minds in communication. These 16 profiles inspired her future personality, aesthetics, and content.</span>
+                <span class="lang-es">Para definir los pilares de Maia, estudiamos a las mentes más brillantes de la divulgación. A continuación se presentan los 16 influencers que inspiraron su personalidad, estética y contenido, organizados en dos grupos según su idioma principal.</span>
+                <span class="lang-en hidden">To define Maia's pillars, we studied the brightest minds in communication. Below are the 16 influencers who inspired her personality, aesthetics, and content, organized into two groups by their primary language.</span>
             </p>
 
-            <!-- Influencers Hispanohablantes -->
+            <!-- Tarjetas simples de influencers agrupadas por idioma -->
             <div class="mb-8">
-                <h3 class="text-2xl font-bold text-accent-gold mb-6 text-center">
-                    <span class="lang-es">Influencers de Habla Hispana</span>
-                    <span class="lang-en hidden">Spanish-speaking Influencers</span>
-                </h3>
-                <div id="spanishInfluencersGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <!-- Se llena dinámicamente por JavaScript -->
+                <!-- Influencers de Habla Hispana -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-accent-gold mb-6 text-center">
+                        <span class="lang-es">Influencers de Habla Hispana</span>
+                        <span class="lang-en hidden">Spanish-speaking Influencers</span>
+                    </h3>
+                    <div id="hispanicInfluencersGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- Se llena dinámicamente por JavaScript -->
+                    </div>
                 </div>
-            </div>
 
-            <!-- Influencers de Habla Inglesa -->
-            <div class="mb-8">
-                <h3 class="text-2xl font-bold text-accent-gold mb-6 text-center">
-                    <span class="lang-es">Influencers de Habla Inglesa</span>
-                    <span class="lang-en hidden">English-speaking Influencers</span>
-                </h3>
-                <div id="englishInfluencersGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <!-- Se llena dinámicamente por JavaScript -->
+                <!-- Influencers de Habla Inglesa -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-accent-gold mb-6 text-center">
+                        <span class="lang-es">Influencers de Habla Inglesa</span>
+                        <span class="lang-en hidden">English-speaking Influencers</span>
+                    </h3>
+                    <div id="englishInfluencersGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- Se llena dinámicamente por JavaScript -->
+                    </div>
                 </div>
             </div>
 
             <!-- Botón de IA único -->
             <div class="mt-12 border-t border-accent-gold pt-8">
-                <div class="max-w-md mx-auto text-center">
-                    <h4 class="text-lg font-semibold text-accent-gold mb-4">
-                        <span class="lang-es">Creando la Mente de Maia</span>
-                        <span class="lang-en hidden">Creating Maia's Mind</span>
-                    </h4>
-                    <div class="ai-btn-voltage">
-                        <button id="generateIdealAIProfileButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg w-full">
-                            <span class="lang-es">✨ Generar el Perfil de IA Ideal</span>
-                            <span class="lang-en hidden">✨ Generate the Ideal AI Profile</span>
-                        </button>
+                <h3 class="text-2xl font-bold text-accent-gold mb-8 text-center">
+                    <span class="lang-es">Análisis de IA</span>
+                    <span class="lang-en hidden">AI Analysis</span>
+                </h3>
+                <div class="max-w-md mx-auto">
+                    <div class="bg-tertiary-dark p-6 rounded-lg text-center">
+                        <h4 class="text-lg font-semibold text-accent-gold mb-4">
+                            <span class="lang-es">Creando la Mente de Maia</span>
+                            <span class="lang-en hidden">Creating Maia's Mind</span>
+                        </h4>
+                        <p class="text-sm text-secondary-text mb-4">
+                            <span class="lang-es">Analiza automáticamente los 16 perfiles de influencers para generar el perfil ideal de personalidad para Maia Kode.</span>
+                            <span class="lang-en hidden">Automatically analyzes all 16 influencer profiles to generate the ideal personality profile for Maia Kode.</span>
+                        </p>
+                        <div class="ai-btn-voltage">
+                            <button id="generateIdealAIProfileButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg w-full">
+                                <span class="lang-es">✨ Generar el Perfil de IA Ideal</span>
+                                <span class="lang-en hidden">✨ Generate the Ideal AI Profile</span>
+                            </button>
+                        </div>
+                        <div id="idealAIProfileLoading" class="loading-spinner mx-auto mt-4" style="display: none;"></div>
+                        <div id="idealAIProfileOutput" class="api-output mt-4" style="display: none;" aria-live="polite"></div>
                     </div>
-                    <div id="idealAIProfileLoading" class="loading-spinner mx-auto mt-4" style="display: none;"></div>
-                    <div id="idealAIProfileOutput" class="api-output mt-4" style="display: none;" aria-live="polite"></div>
+                </div>
+            </div>
                 </div>
             </div>
         </section>

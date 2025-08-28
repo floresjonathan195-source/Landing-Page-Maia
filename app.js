@@ -831,6 +831,40 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         document.getElementById(`aestheticAnalysisBtn_${influencer.id}`).addEventListener('click', (e) => callGenerativeAPI(aestheticAnalysisPrompt, e.target, document.getElementById(`aestheticAnalysisLoading_${influencer.id}`), document.getElementById(`aestheticAnalysisOutput_${influencer.id}`)));
     }
 
+    // Simplified function to populate minimalist influencer cards
+    function populateSimpleInfluencerCards() {
+        const hispanicGrid = document.getElementById('hispanicInfluencersGrid');
+        const englishGrid = document.getElementById('englishInfluencersGrid');
+        
+        if (!hispanicGrid || !englishGrid) return;
+        
+        // Clear existing content
+        hispanicGrid.innerHTML = '';
+        englishGrid.innerHTML = '';
+        
+        // Filter and populate Hispanic influencers
+        const hispanicInfluencers = influencers.filter(inf => inf.language === 'Español');
+        hispanicInfluencers.forEach(influencer => {
+            const card = document.createElement('div');
+            card.className = 'simple-influencer-card bg-tertiary-dark border border-border-color rounded-lg p-4 text-center transition-all duration-200 hover:transform hover:-translate-y-1 hover:border-accent-blue hover:shadow-lg';
+            card.innerHTML = `
+                <h4 class="font-semibold text-accent-gold">${influencer.name.split('(')[0].trim()}</h4>
+            `;
+            hispanicGrid.appendChild(card);
+        });
+        
+        // Filter and populate English influencers  
+        const englishInfluencers = influencers.filter(inf => inf.language === 'Ingles');
+        englishInfluencers.forEach(influencer => {
+            const card = document.createElement('div');
+            card.className = 'simple-influencer-card bg-tertiary-dark border border-border-color rounded-lg p-4 text-center transition-all duration-200 hover:transform hover:-translate-y-1 hover:border-accent-blue hover:shadow-lg';
+            card.innerHTML = `
+                <h4 class="font-semibold text-accent-gold">${influencer.name.split('(')[0].trim()}</h4>
+            `;
+            englishGrid.appendChild(card);
+        });
+    }
+
     function populateInfluencerSection(lang, selectorElement, detailElement) {
         const filteredInfluencers = influencers.filter(inf => inf.language === lang);
         if (!selectorElement) return;
@@ -1116,7 +1150,7 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         // Populate simplified influencer cards
         populateSimpleInfluencerCards();
 
-        // Initialize AI buttons and verify dependencies - FIX: Added after move
+        // Initialize AI button (single button now)
         initializeAIButtons();
 
         populateComparisonTable();
@@ -1396,6 +1430,7 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         // Verify required elements exist
         if (!generateIdealAIProfileButton) {
             console.warn('AI Button Missing: generateIdealAIProfileButton element not found');
+            return;
         }
         
         // Verify loading and output elements exist
@@ -1409,7 +1444,41 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        console.log('AI buttons initialization completed');
+        // Add event listener for the AI profile generation (automatically analyzes all influencers)
+        generateIdealAIProfileButton.addEventListener('click', async () => {
+            if (!influencers || influencers.length === 0) {
+                console.warn('No influencers data available for AI analysis');
+                return;
+            }
+            
+            // Create a prompt that includes all 16 influencers automatically
+            const allInfluencersData = influencers.map(inf => {
+                return `${inf.name}: ${inf.description?.personality || ''} - Content: ${inf.contentType || ''} - Language: ${inf.language}`;
+            }).join('\n');
+            
+            const profilePrompt = promptTemplates[currentLanguage]?.idealProfile?.template || `
+Analiza todos estos 16 influencers educativos y tecnológicos para crear el perfil ideal de personalidad para la IA educativa "Maia Kode":
+
+${allInfluencersData}
+
+Basándote en estos perfiles, define:
+1. **Personalidad Core**: Los rasgos de personalidad más importantes que debe tener Maia
+2. **Estilo de Comunicación**: Cómo debe comunicarse para ser más efectiva  
+3. **Estética y Presencia**: Su imagen y presencia visual/digital
+4. **Metodología Didáctica**: Su enfoque único para enseñar
+5. **Valores y Misión**: Los principios que la guían
+
+Crea un perfil coherente y específico que combine lo mejor de estos referentes.`;
+            
+            await callGenerativeAPI(
+                profilePrompt, 
+                generateIdealAIProfileButton, 
+                document.getElementById('idealAIProfileLoading'), 
+                document.getElementById('idealAIProfileOutput')
+            );
+        });
+        
+        console.log('AI button initialization completed');
     }
 
     // Function to reset AI-generated content when language changes
