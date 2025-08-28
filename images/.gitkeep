@@ -1,0 +1,6 @@
+# This file ensures the /images directory is tracked by Git
+# The /images folder was recreated after being accidentally deleted
+# This directory is intended for project images such as:
+# - Maia Kode.png (AI avatar)
+# - Jon Efe.jpeg (co-creator photo)
+# - Any future project images
