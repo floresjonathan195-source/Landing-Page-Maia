@@ -1143,9 +1143,34 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         });
     }
 
+    // Function to populate the landing page inspiration section with real influencer data
+    function populateInspirationInfluencers() {
+        const inspirationGrid = document.getElementById('inspirationInfluencersGrid');
+        if (!inspirationGrid || !influencers || influencers.length === 0) return;
+        
+        // Clear existing content
+        inspirationGrid.innerHTML = '';
+        
+        // Display all 16 influencers from the JSON data
+        influencers.forEach(influencer => {
+            const influencerCard = document.createElement('div');
+            influencerCard.className = 'text-center';
+            influencerCard.innerHTML = `
+                <div class="w-20 h-20 mx-auto rounded-full overflow-hidden border-3 border-accent-gold mb-3 bg-tertiary-dark hover:scale-110 transition-transform duration-200">
+                    <img src="${influencer.image}" alt="${influencer.name}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-400 to-gray-600\\'><div class=\\'text-white text-sm\\'>👤</div></div>';">
+                </div>
+                <p class="text-xs text-secondary-text font-medium">${influencer.name}</p>
+            `;
+            inspirationGrid.appendChild(influencerCard);
+        });
+    }
+
     async function initializeApp() {
         influencers = await loadInfluencerData();
         if (!Array.isArray(influencers) || influencers.length === 0) return;
+        
+        // Populate the inspiration section with real influencer data
+        populateInspirationInfluencers();
         
         // Populate simplified influencer cards
         populateSimpleInfluencerCards();
