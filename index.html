@@ -264,128 +264,53 @@ I'm here to be your guide and your greatest ally. Shall we start building your f
                 <span class="lang-en hidden">The Inspiration</span>
             </h2>
             <p class="mb-8 text-secondary-text leading-relaxed text-center max-w-4xl mx-auto text-lg">
-                <span class="lang-es">Para definir los pilares de Maia, estudiamos a las mentes más brillantes de la divulgación. Selecciona los perfiles que consideres más relevantes para ver un análisis detallado de los rasgos que inspiraron su futura personalidad, estética y contenido.</span>
-                <span class="lang-en hidden">To define Maia's pillars, we studied the brightest minds in communication. Select the profiles you consider most relevant to see a detailed analysis of the traits that inspired her future personality, aesthetics, and content.</span>
+                <span class="lang-es">Para definir los pilares de Maia, estudiamos a las mentes más brillantes de la divulgación. A continuación se presentan los 16 influencers que inspiraron su personalidad, estética y contenido, organizados en dos grupos según su idioma principal.</span>
+                <span class="lang-en hidden">To define Maia's pillars, we studied the brightest minds in communication. Below are the 16 influencers who inspired her personality, aesthetics, and content, organized into two groups by their primary language.</span>
             </p>
 
-            <!-- Selector de perfiles con checkboxes integrados -->
+            <!-- Tarjetas simples de influencers agrupadas por idioma -->
             <div class="mb-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-semibold text-accent-gold">
-                        <span class="lang-es">Selecciona los perfiles para análisis:</span>
-                        <span class="lang-en hidden">Select profiles for analysis:</span>
-                    </h3>
-                    <div class="text-accent-blue">
-                        <span class="lang-es">Seleccionados: </span>
-                        <span class="lang-en hidden">Selected: </span>
-                        <span id="selectedCount" class="font-bold">0</span>
-                    </div>
-                </div>
-                
-                <!-- Botón seleccionar todos -->
-                <div class="text-center mb-6">
-                    <button id="selectAllButton" class="decorative-btn bg-tertiary-dark hover:bg-secondary-dark text-accent-gold border border-accent-gold px-4 py-2 rounded">
-                        <span class="lang-es">Seleccionar todos</span>
-                        <span class="lang-en hidden">Select all</span>
-                    </button>
-                </div>
-
-                <!-- Grid de perfiles con checkboxes -->
-                <div id="influencerCheckboxGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <!-- Se llena dinámicamente por JavaScript -->
-                </div>
-            </div>
-
-<!-- Mobile Accordion Navigation (hidden on desktop) -->
-            <div class="mobile-influencer-accordion md:hidden mb-6">
-                <!-- Hispanic Models Accordion Section -->
-                <div class="accordion-section border border-border-color rounded-lg mb-4">
-                    <button id="accordion-spanish" class="accordion-header w-full flex items-center justify-between p-4 bg-tertiary-dark hover:bg-secondary-dark transition-colors duration-200 rounded-lg">
-                        <h3 class="text-lg font-bold text-accent-gold">
-                            <span class="lang-es">Influencers de habla hispana</span>
-                            <span class="lang-en hidden">Spanish-speaking Influencers</span>
-                        </h3>
-                        <svg class="accordion-icon w-5 h-5 text-accent-gold transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="hispanas-container" class="accordion-content bg-tertiary-dark p-6 rounded-b-lg" data-accordion="spanish">
-                        <div class="grid grid-cols-1 gap-4 mb-6" id="influencerSelectorHispanas"></div>
-                        <div id="influencerDetailHispanas" class="p-4 border border-border-color rounded-lg bg-secondary-dark min-h-[200px]">
-                            <p class="text-center text-tertiary-text">
-                                <span class="lang-es">Selecciona un modelo para ver sus detalles.</span>
-                                <span class="lang-en hidden">Select a model to see their details.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- English Models Accordion Section -->
-                <div class="accordion-section border border-border-color rounded-lg mb-4">
-                    <button id="accordion-english" class="accordion-header w-full flex items-center justify-between p-4 bg-tertiary-dark hover:bg-secondary-dark transition-colors duration-200 rounded-lg">
-                        <h3 class="text-lg font-bold text-accent-gold">
-                            <span class="lang-es">Influencers de habla inglesa</span>
-                            <span class="lang-en hidden">English-speaking Influencers</span>
-                        </h3>
-                        <svg class="accordion-icon w-5 h-5 text-accent-gold transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="inglesas-container" class="accordion-content bg-tertiary-dark p-6 rounded-b-lg" data-accordion="english">
-                        <div class="grid grid-cols-1 gap-4 mb-6" id="influencerSelectorInglesas"></div>
-                        <div id="influencerDetailInglesas" class="p-4 border border-border-color rounded-lg bg-secondary-dark min-h-[200px]">
-                            <p class="text-center text-tertiary-text">
-                                <span class="lang-es">Selecciona un modelo para ver sus detalles.</span>
-                                <span class="lang-en hidden">Select a model to see their details.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Desktop Grid Layout (hidden on mobile) -->
-            <div class="hidden md:grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-tertiary-dark p-6 rounded-lg shadow-inner flex flex-col">
-                    <h3 class="text-xl font-bold text-accent-gold mb-4 text-center">
-                        <span class="lang-es">Influencers de habla hispana</span>
+                <!-- Influencers de Habla Hispana -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-accent-gold mb-6 text-center">
+                        <span class="lang-es">Influencers de Habla Hispana</span>
                         <span class="lang-en hidden">Spanish-speaking Influencers</span>
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 flex-grow" id="influencerSelectorHispanasDesktop"></div>
-                    <div id="influencerDetailHispanasDesktop" class="mt-auto p-4 border border-border-color rounded-lg bg-secondary-dark min-h-[200px]">
-                        <p class="text-center text-tertiary-text">
-                            <span class="lang-es">Selecciona un modelo para ver sus detalles.</span>
-                            <span class="lang-en hidden">Select a model to see their details.</span>
-                        </p>
+                    <div id="hispanicInfluencersGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- Se llena dinámicamente por JavaScript -->
                     </div>
                 </div>
 
-                <div class="bg-tertiary-dark p-6 rounded-lg shadow-inner flex flex-col">
-                    <h3 class="text-xl font-bold text-accent-gold mb-4 text-center">
-                        <span class="lang-es">Influencers de habla inglesa</span>
+                <!-- Influencers de Habla Inglesa -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-accent-gold mb-6 text-center">
+                        <span class="lang-es">Influencers de Habla Inglesa</span>
                         <span class="lang-en hidden">English-speaking Influencers</span>
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 flex-grow" id="influencerSelectorInglesasDesktop"></div>
-                    <div id="influencerDetailInglesasDesktop" class="mt-auto p-4 border border-border-color rounded-lg bg-secondary-dark min-h-[200px]">
-                        <p class="text-center text-tertiary-text">
-                            <span class="lang-es">Selecciona un modelo para ver sus detalles.</span>
-                            <span class="lang-en hidden">Select a model to see their details.</span>
-                        </p>
+                    <div id="englishInfluencersGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- Se llena dinámicamente por JavaScript -->
                     </div>
                 </div>
             </div>
 
-            <!-- Botones de IA movidos al final de la sección -->
+
+
+            <!-- Botón de IA único -->
             <div class="mt-12 border-t border-accent-gold pt-8">
                 <h3 class="text-2xl font-bold text-accent-gold mb-8 text-center">
-                    <span class="lang-es">Herramientas de Análisis IA</span>
-                    <span class="lang-en hidden">AI Analysis Tools</span>
+                    <span class="lang-es">Análisis de IA</span>
+                    <span class="lang-en hidden">AI Analysis</span>
                 </h3>
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="max-w-md mx-auto">
                     <div class="bg-tertiary-dark p-6 rounded-lg text-center">
                         <h4 class="text-lg font-semibold text-accent-gold mb-4">
                             <span class="lang-es">Creando la Mente de Maia</span>
                             <span class="lang-en hidden">Creating Maia's Mind</span>
                         </h4>
+                        <p class="text-sm text-secondary-text mb-4">
+                            <span class="lang-es">Analiza automáticamente los 16 perfiles de influencers para generar el perfil ideal de personalidad para Maia Kode.</span>
+                            <span class="lang-en hidden">Automatically analyzes all 16 influencer profiles to generate the ideal personality profile for Maia Kode.</span>
+                        </p>
                         <div class="ai-btn-voltage">
                             <button id="generateIdealAIProfileButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg w-full">
                                 <span class="lang-es">✨ Generar el Perfil de IA Ideal</span>
@@ -394,36 +319,6 @@ I'm here to be your guide and your greatest ally. Shall we start building your f
                         </div>
                         <div id="idealAIProfileLoading" class="loading-spinner mx-auto mt-4" style="display: none;"></div>
                         <div id="idealAIProfileOutput" class="api-output mt-4" style="display: none;" aria-live="polite"></div>
-                    </div>
-                    
-                    <div class="bg-tertiary-dark p-6 rounded-lg text-center">
-                        <h4 class="text-lg font-semibold text-accent-gold mb-4">
-                            <span class="lang-es">Una Voz que se Recordará</span>
-                            <span class="lang-en hidden">A Voice to Remember</span>
-                        </h4>
-                        <div class="ai-btn-voltage">
-                            <button id="generateTitleSloganButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg w-full" disabled>
-                                <span class="lang-es">✨ Proponer Título y Eslogan</span>
-                                <span class="lang-en hidden">✨ Propose Title and Slogan</span>
-                            </button>
-                        </div>
-                        <div id="titleSloganLoading" class="loading-spinner mx-auto mt-4" style="display: none;"></div>
-                        <div id="titleSloganOutput" class="api-output mt-4" style="display: none;" aria-live="polite"></div>
-                    </div>
-                    
-                    <div class="bg-tertiary-dark p-6 rounded-lg text-center">
-                        <h4 class="text-lg font-semibold text-accent-gold mb-4">
-                            <span class="lang-es">Resumir Patrones Clave</span>
-                            <span class="lang-en hidden">Summarize Key Patterns</span>
-                        </h4>
-                        <div class="ai-btn-voltage">
-                            <button id="summarizePatternsButton" class="voltage-button api-button bg-accent-blue hover:bg-accent-blue-hover text-primary-dark disabled:bg-disabled-bg w-full">
-                                <span class="lang-es">✨ Resumir Patrones Clave</span>
-                                <span class="lang-en hidden">✨ Summarize Key Patterns</span>
-                            </button>
-                        </div>
-                        <div id="summarizePatternsLoading" class="loading-spinner mx-auto mt-4" style="display: none;"></div>
-                        <div id="summarizePatternsOutput" class="api-output mt-4" style="display: none;" aria-live="polite"></div>
                     </div>
                 </div>
             </div>
