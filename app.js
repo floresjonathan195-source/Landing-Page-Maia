@@ -322,9 +322,8 @@ The objective is to analyze a summary of data from 16 influencers to identify th
     const platformGrid = document.getElementById('platformGrid');
     let platformGridRendered = false;
 
-    const summarizePatternsButton = document.getElementById('summarizePatternsButton');
+    // Remove references to deleted AI buttons
     const generateIdealAIProfileButton = document.getElementById('generateIdealAIProfileButton');
-    const generateTitleSloganButton = document.getElementById('generateTitleSloganButton');
 
     const apiUrl = '/.netlify/functions/openai';
 
@@ -605,6 +604,47 @@ The objective is to analyze a summary of data from 16 influencers to identify th
         } finally {
             audioLoading.style.display = 'none';
         }
+    }
+
+    // Simplified function to populate simple influencer cards
+    function populateSimpleInfluencerCards() {
+        const spanishGrid = document.getElementById('spanishInfluencersGrid');
+        const englishGrid = document.getElementById('englishInfluencersGrid');
+        
+        if (!spanishGrid || !englishGrid) return;
+        
+        // Clear existing content
+        spanishGrid.innerHTML = '';
+        englishGrid.innerHTML = '';
+        
+        // Filter and display Spanish influencers
+        const spanishInfluencers = influencers.filter(inf => inf.language === 'Español');
+        spanishInfluencers.forEach(influencer => {
+            const card = createSimpleInfluencerCard(influencer);
+            spanishGrid.appendChild(card);
+        });
+        
+        // Filter and display English influencers
+        const englishInfluencers = influencers.filter(inf => inf.language === 'Ingles');
+        englishInfluencers.forEach(influencer => {
+            const card = createSimpleInfluencerCard(influencer);
+            englishGrid.appendChild(card);
+        });
+    }
+    
+    // Create a simple influencer card element
+    function createSimpleInfluencerCard(influencer) {
+        const card = document.createElement('div');
+        card.className = 'simple-influencer-card';
+        
+        const influencerName = influencer.name.split('(')[0].trim();
+        
+        card.innerHTML = `
+            <img src="${influencer.image}" alt="${influencerName}" loading="lazy">
+            <h4>${influencerName}</h4>
+        `;
+        
+        return card;
     }
 
     function displayInfluencerDetail(influencer, detailElement) {
@@ -1073,38 +1113,11 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         influencers = await loadInfluencerData();
         if (!Array.isArray(influencers) || influencers.length === 0) return;
         
-        // Populate mobile accordion versions
-        populateInfluencerSection("Español", influencerSelectorHispanas, influencerDetailHispanas);
-        populateInfluencerSection("Ingles", influencerSelectorInglesas, influencerDetailInglesas);
-        
-        // Populate desktop versions if they exist
-        const influencerSelectorHispanasDesktop = document.getElementById('influencerSelectorHispanasDesktop');
-        const influencerDetailHispanasDesktop = document.getElementById('influencerDetailHispanasDesktop');
-        const influencerSelectorInglesasDesktop = document.getElementById('influencerSelectorInglesasDesktop');
-        const influencerDetailInglesasDesktop = document.getElementById('influencerDetailInglesasDesktop');
-        
-        if (influencerSelectorHispanasDesktop && influencerDetailHispanasDesktop) {
-            populateInfluencerSection("Español", influencerSelectorHispanasDesktop, influencerDetailHispanasDesktop);
-        }
-        if (influencerSelectorInglesasDesktop && influencerDetailInglesasDesktop) {
-            populateInfluencerSection("Ingles", influencerSelectorInglesasDesktop, influencerDetailInglesasDesktop);
-        }
-
-        // Initialize mobile accordion functionality
-        initializeMobileAccordion();
-
-        // Initialize new influencer selector
-        initializeInfluencerSelector();
-
-        // Initialize single-page checkbox grid
-        populateInfluencerCheckboxGrid();
-        initializeSelectAllButton();
+        // Populate simplified influencer cards
+        populateSimpleInfluencerCards();
 
         // Initialize AI buttons and verify dependencies - FIX: Added after move
         initializeAIButtons();
-        
-        // Initialize selection count display for AI buttons
-        updateInfluencerSelectionCount();
 
         populateComparisonTable();
         // showSection('mision'); // Disabled for single-page layout
@@ -1275,38 +1288,17 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
     }
 
     // Fix: Updated AI button event listener to use correct checkbox selector
-    if (summarizePatternsButton) summarizePatternsButton.addEventListener('click', (e) => {
-        const selectedCheckboxes = document.querySelectorAll('input[name="profileSelection"]:checked');
-        const profilesToAnalyze = selectedCheckboxes.length > 0 ? 
-            influencers.filter(inf => Array.from(selectedCheckboxes).map(cb => cb.value).includes(inf.name)) : 
-            influencers;
-        const tableDataSummary = profilesToAnalyze.map(inf => `${inf.name}(${inf.language}):P-${inf.description.personality.substring(0,50)} E-${inf.description.esthetics.substring(0,50)} C-${inf.contentType.substring(0,50)}`).join("||");
-        const prompt = promptTemplates[currentLanguage].summarizePatterns.template.replace('{{tableDataSummary}}', tableDataSummary);
-        callGenerativeAPI(prompt, e.target, document.getElementById('summarizePatternsLoading'), document.getElementById('summarizePatternsOutput'));
-    });
-
-    // Fix: Updated AI button event listener to use correct checkbox selector  
+    // Event listener for the single AI button
     if (generateIdealAIProfileButton) generateIdealAIProfileButton.addEventListener('click', (e) => {
-        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
+        // Use all influencers for analysis automatically
+        const profileNames = influencers.map(inf => inf.name);
         const conclusionText = promptTemplates[currentLanguage].idealProfile.conclusion;
-        let dynamicConclusion = conclusionText;
-        if (profileNames.length > 0) {
-            dynamicConclusion = (currentLanguage === 'es' ? `Basado en el análisis de perfiles como ${profileNames.join(', ')}, la conclusión es que ` : `Based on profiles like ${profileNames.join(', ')}, the conclusion is `) + conclusionText.toLowerCase();
-        }
+        const dynamicConclusion = (currentLanguage === 'es' ? 
+            `Basado en el análisis de todos los perfiles inspiradores: ${profileNames.join(', ')}, la conclusión es que ` : 
+            `Based on all inspiring profiles: ${profileNames.join(', ')}, the conclusion is `) + conclusionText.toLowerCase();
+        
         const prompt = promptTemplates[currentLanguage].idealProfile.template.replace('{{conclusion}}', dynamicConclusion);
         callGenerativeAPI(prompt, e.target, document.getElementById('idealAIProfileLoading'), document.getElementById('idealAIProfileOutput'));
-    });
-
-    // Fix: Updated AI button event listener to use correct checkbox selector
-    if (generateTitleSloganButton) generateTitleSloganButton.addEventListener('click', (e) => {
-        const profileNames = Array.from(document.querySelectorAll('input[name="profileSelection"]:checked')).map(cb => cb.value);
-        if (profileNames.length === 0) {
-            alert(currentLanguage === 'es' ? 'Por favor, selecciona al menos un perfil para generar un eslogan.' : 'Please select at least one profile to generate a slogan.');
-            return;
-        }
-        const manifestText = `una IA inspirada en las cualidades de comunicación de: ${profileNames.join(', ')}.`;
-        const prompt = promptTemplates[currentLanguage].titleSlogan.template.replace('{{manifest}}', manifestText);
-        callGenerativeAPI(prompt, e.target, document.getElementById('titleSloganLoading'), document.getElementById('titleSloganOutput'));
     });
 
     // Global function to update language from index.html
@@ -1395,30 +1387,20 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
 
     // Function to initialize AI button dependencies and ensure proper state
     function initializeAIButtons() {
-        // Get AI button elements
-        const summarizePatternsButton = document.getElementById('summarizePatternsButton');
+        // Get AI button elements (simplified - only one button now)
         const generateIdealAIProfileButton = document.getElementById('generateIdealAIProfileButton');
-        const generateTitleSloganButton = document.getElementById('generateTitleSloganButton');
         
         // Get related elements
         const idealProfileOutput = document.getElementById('idealAIProfileOutput');
         
-        // Verify all required elements exist
-        if (!summarizePatternsButton) {
-            console.warn('AI Button Missing: summarizePatternsButton element not found');
-        }
+        // Verify required elements exist
         if (!generateIdealAIProfileButton) {
             console.warn('AI Button Missing: generateIdealAIProfileButton element not found');
-        }
-        if (!generateTitleSloganButton) {
-            console.warn('AI Button Missing: generateTitleSloganButton element not found');
         }
         
         // Verify loading and output elements exist
         const requiredElements = [
-            'idealAIProfileLoading', 'idealAIProfileOutput',
-            'titleSloganLoading', 'titleSloganOutput', 
-            'summarizePatternsLoading', 'summarizePatternsOutput'
+            'idealAIProfileLoading', 'idealAIProfileOutput'
         ];
         
         requiredElements.forEach(elementId => {
@@ -1427,25 +1409,14 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Set initial button states
-        if (generateTitleSloganButton && idealProfileOutput) {
-            // Title/slogan button should be disabled initially if no ideal profile exists
-            if (idealProfileOutput.innerHTML.trim() === '') {
-                generateTitleSloganButton.disabled = true;
-                generateTitleSloganButton.classList.add('disabled:bg-disabled-bg');
-            }
-        }
-        
         console.log('AI buttons initialization completed');
     }
 
     // Function to reset AI-generated content when language changes
     function resetAIContent() {
-        // Reset AI output containers
+        // Reset AI output containers (simplified - only one now)
         const aiOutputContainers = [
-            'idealAIProfileOutput',
-            'titleSloganOutput', 
-            'summarizePatternsOutput'
+            'idealAIProfileOutput'
         ];
         
         aiOutputContainers.forEach(containerId => {
@@ -1456,11 +1427,9 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Reset loading spinners
+        // Reset loading spinners (simplified - only one now)
         const loadingContainers = [
-            'idealAIProfileLoading',
-            'titleSloganLoading',
-            'summarizePatternsLoading'
+            'idealAIProfileLoading'
         ];
         
         loadingContainers.forEach(containerId => {
@@ -1470,11 +1439,9 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
             }
         });
         
-        // Reset button states - enable disabled buttons
+        // Reset button states (simplified - only one now)
         const aiButtons = [
-            'generateIdealAIProfileButton',
-            'generateTitleSloganButton',
-            'summarizePatternsButton'
+            'generateIdealAIProfileButton'
         ];
         
         aiButtons.forEach(buttonId => {
@@ -1484,13 +1451,6 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
                 button.classList.remove('disabled:bg-disabled-bg');
             }
         });
-        
-        // Special handling for titleSlogan button which depends on ideal profile
-        const titleSloganButton = document.getElementById('generateTitleSloganButton');
-        const idealProfileOutput = document.getElementById('idealAIProfileOutput');
-        if (titleSloganButton && idealProfileOutput && idealProfileOutput.innerHTML.trim() === '') {
-            titleSloganButton.disabled = true;
-        }
     }
 
     initializeApp();
