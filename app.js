@@ -309,8 +309,9 @@ The objective is to analyze a summary of data from 16 influencers to identify th
         }
     }
 
-    const navButtons = document.querySelectorAll('.nav-button');
-    const contentSections = document.querySelectorAll('.content-section');
+    // Navigation functionality disabled for single-page layout
+    // const navButtons = document.querySelectorAll('.nav-button');
+    // const contentSections = document.querySelectorAll('.content-section');
 
     const influencerSelectorHispanas = document.getElementById('influencerSelectorHispanas');
     const influencerDetailHispanas = document.getElementById('influencerDetailHispanas');
@@ -522,6 +523,8 @@ The objective is to analyze a summary of data from 16 influencers to identify th
     }
 
 
+    // Single-page layout: no section switching needed
+    /*
     function showSection(targetId) {
         contentSections.forEach(section => {
             section.classList.remove('active');
@@ -547,6 +550,7 @@ The objective is to analyze a summary of data from 16 influencers to identify th
     }
 
     navButtons.forEach(button => button.addEventListener('click', () => showSection(button.dataset.target)));
+    */
 
     async function playAudioSummary(influencerId, summaryText, audioPlayerId) {
         const audioPlayer = document.getElementById(audioPlayerId);
@@ -1092,6 +1096,10 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         // Initialize new influencer selector
         initializeInfluencerSelector();
 
+        // Initialize single-page checkbox grid
+        populateInfluencerCheckboxGrid();
+        initializeSelectAllButton();
+
         // Initialize AI buttons and verify dependencies - FIX: Added after move
         initializeAIButtons();
         
@@ -1099,10 +1107,62 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         updateInfluencerSelectionCount();
 
         populateComparisonTable();
-        showSection('mision');
+        // showSection('mision'); // Disabled for single-page layout
     }
 
-    // Function to populate the new influencer checkbox list in Conclusions section
+    // Function to populate the influencer checkbox grid for single-page layout
+    function populateInfluencerCheckboxGrid() {
+        const gridContainer = document.getElementById('influencerCheckboxGrid');
+        if (!gridContainer) return;
+
+        gridContainer.innerHTML = '';
+
+        influencers.forEach(influencer => {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'bg-tertiary-dark p-4 rounded-lg border border-border-color hover:border-accent-gold transition-all duration-200';
+            
+            cardDiv.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <input type="checkbox" 
+                           id="checkbox-${influencer.id}" 
+                           name="profileSelection" 
+                           value="${influencer.name}"
+                           class="new-influencer-checkbox mt-1 w-4 h-4 text-accent-blue bg-secondary-dark border-accent-gold rounded focus:ring-accent-blue focus:ring-2">
+                    <label for="checkbox-${influencer.id}" class="flex-1 cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <img src="${influencer.image}" alt="${influencer.name}" 
+                                 class="w-12 h-12 rounded-full object-cover border-2 border-accent-gold">
+                            <div>
+                                <h4 class="font-semibold text-accent-gold">${influencer.name}</h4>
+                                <p class="text-sm text-secondary-text">${influencer.language}</p>
+                                <div class="flex space-x-1 mt-1">
+                                    ${influencer.platforms.map(platform => 
+                                        `<span class="text-xs bg-accent-blue text-primary-dark px-2 py-1 rounded">${platform.name}</span>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            `;
+
+            // Add click event to the card to toggle checkbox
+            cardDiv.addEventListener('click', (e) => {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = cardDiv.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    updateSelectedCount();
+                }
+            });
+
+            gridContainer.appendChild(cardDiv);
+        });
+
+        // Add event listeners to checkboxes
+        document.querySelectorAll('.new-influencer-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+    }
     function populateInfluencerCheckboxList() {
         const checkboxListContainer = document.getElementById('influencerCheckboxList');
         if (!checkboxListContainer) return;
@@ -1144,7 +1204,32 @@ El objetivo es deconstruir la descripción estética de un influencer en 3 conce
         }
     }
 
-    // Function to initialize the influencer selector interface
+    // Function to initialize the select all button for checkbox grid
+    function initializeSelectAllButton() {
+        const selectAllButton = document.getElementById('selectAllButton');
+        if (selectAllButton) {
+            selectAllButton.addEventListener('click', () => {
+                const checkboxes = document.querySelectorAll('.new-influencer-checkbox');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = !allChecked;
+                });
+                
+                updateSelectedCount();
+                
+                const selectAllText = selectAllButton.querySelector('.lang-es');
+                const selectAllTextEn = selectAllButton.querySelector('.lang-en');
+                if (allChecked) {
+                    selectAllText.textContent = 'Seleccionar todos';
+                    selectAllTextEn.textContent = 'Select all';
+                } else {
+                    selectAllText.textContent = 'Deseleccionar todos';
+                    selectAllTextEn.textContent = 'Deselect all';
+                }
+            });
+        }
+    }
     function initializeInfluencerSelector() {
         populateInfluencerCheckboxList();
 
