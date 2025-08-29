@@ -1596,6 +1596,19 @@ input:focus, textarea:focus {
     nav .hidden {
         display: none;
     }
+    
+    /* Conversion section mobile typography optimization */
+    #conversion h2 {
+        font-size: 2rem !important; /* Reduce from text-5xl to better mobile proportion */
+        line-height: 1.2;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    #conversion p {
+        font-size: 1.125rem !important; /* Reduce from text-2xl to text-lg equivalent */
+        line-height: 1.6;
+        margin-bottom: 2rem !important;
+    }
 }
 
 /* Enhanced CTA buttons */
