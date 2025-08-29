@@ -1344,13 +1344,6 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         overflow: hidden;
     }
 }
-    
-    /* Optimize electric button effects */
-    .electric-cta::before {
-        left: -15px;
-        font-size: 14px;
-    }
-}
 
 /* ============== ENHANCED FORM STYLES ============== */
 /* Contact form enhancements */
@@ -1900,7 +1893,7 @@ button:focus, a:focus {
 }
 
 .electric-cta::before {
-    content: '{ }';
+    content: '';
     position: absolute;
     left: -20px;
     top: 50%;
@@ -1912,6 +1905,7 @@ button:focus, a:focus {
 }
 
 .electric-cta:hover::before {
+    content: '{ }';
     opacity: 0.7;
 }
 
