@@ -56,9 +56,9 @@ main, header, section, .max-w-6xl {
 .text-accent-cyan { color: var(--accent-blue); }  /* Reemplazado Cyan por Azul */
 .text-accent-gold { color: var(--accent-gold); }
 
-/* Title gradient class for blue-purple gradient effect */
+/* Title gradient class for blue-electric → violet → yellow gradient effect */
 .title-gradient {
-    background: linear-gradient(135deg, #58A6FF, #A855F7);
+    background: linear-gradient(135deg, #00BFFF, #8A2BE2, #FFD700);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
