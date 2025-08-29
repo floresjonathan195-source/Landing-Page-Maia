@@ -1321,6 +1321,23 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         transform: translateY(0);
     }
     
+/* Mobile responsive grid layout - 2 columns for small mobile, 3 for larger mobile */
+.asymmetric-grid {
+    gap: 1rem;
+    /* Small mobile: 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Medium/large mobile: 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+    .asymmetric-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+}
     /* Ensure influencer cards don't exceed container */
     .asymmetric-grid > * {
         max-width: 100%;
