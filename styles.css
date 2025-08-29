@@ -1289,13 +1289,18 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         transform: translateY(-4px) scale(1.02);
     }
     
-    /* Reduce asymmetric offset on mobile */
+    /* Remove asymmetric offset on mobile for consistent spacing */
     .asymmetric-grid > *:nth-child(2n) {
-        transform: translateY(10px);
+        transform: none;
     }
     
     .asymmetric-grid > *:nth-child(3n) {
-        transform: translateY(20px);
+        transform: none;
+    }
+    
+    /* Ensure consistent gap between all influencer cards in mobile */
+    .asymmetric-grid {
+        gap: 1.5rem; /* Slightly smaller gap for mobile */
     }
     
     /* Optimize electric button effects */
