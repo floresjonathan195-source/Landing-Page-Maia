@@ -1723,6 +1723,23 @@ button:focus, a:focus {
     text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
 }
 
+/* Blue-purple gradient for section titles */
+.title-gradient {
+    /* Fallback for browsers that don't support background-clip: text */
+    color: #58A6FF;
+    background: linear-gradient(135deg, #58A6FF, #A855F7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Modern browser support for gradient text */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+    .title-gradient {
+        color: transparent;
+    }
+}
+
 .geek-chic-heading::before {
     content: '';
     position: absolute;
