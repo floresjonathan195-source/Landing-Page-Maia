@@ -1,7 +1,7 @@
 /* ============== INICIO: Contenido para: styles.css (Paleta "Aurora Dorada") ============== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-/* Paleta "Aurora Dorada": Elegancia y Tecnología */
+/* Paleta "Aurora Dorada": Elegancia y Tecnología + Geek-Chic */
 :root {
     --primary-dark: #0D1117;       /* Negro GitHub - Sofisticado y profundo */
     --secondary-dark: #161B22;     /* Gris oscuro GitHub - Para secciones */
@@ -12,8 +12,12 @@
     --accent-gold: #FFC777;        /* Dorado vibrante y elegante */
     --accent-gold-hover: #E0A84C;  /* Dorado para hover */
     --accent-yellow: #FFD600;      /* Amarillo específico para botones CTA */
-    --accent-blue: #58A6FF;        /* Azul eléctrico (GitHub) */
+    --accent-blue: #58A6FF;        /* Azul eléctrico (GitHub) - Color signature de Maia */
     --accent-blue-hover: #388BFD;  /* Azul para hover */
+    --accent-electric: #00D4FF;    /* Azul eléctrico más vibrante - pelo de Maia */
+    --accent-violet: #A855F7;      /* Violeta para creatividad y tech */
+    --accent-magenta: #E879F9;     /* Magenta para elementos geek-chic */
+    --accent-purple-glow: #8B5CF6; /* Púrpura para efectos glow */
     --border-color: #30363D;       /* Color de borde sutil */
     --disabled-bg: #4B5563;        /* Fondo para botones deshabilitados */
     --disabled-text: #A0AEC0;      /* Texto para botones deshabilitados */
@@ -1242,15 +1246,63 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
 }
 }
 
-/* Enhanced influencer card styles (without checkbox integration) */
-.influencer-card {
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.influencer-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+/* Mobile optimizations for geek-chic effects */
+@media (max-width: 768px) {
+    /* Reduce particle density on mobile for better performance */
+    .digital-particles::before {
+        font-size: 10px;
+        letter-spacing: 20px;
+        word-spacing: 30px;
+        animation-duration: 6s;
+    }
+    
+    /* Simplify gradient text for mobile performance */
+    .geek-chic-heading {
+        background: linear-gradient(135deg, var(--accent-electric) 0%, var(--accent-gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    /* Optimize circuit decorations for mobile */
+    .circuit-decoration::after {
+        width: 1px;
+        height: 15px;
+        right: -8px;
+    }
+    
+    .circuit-decoration::before {
+        width: 6px;
+        height: 6px;
+        right: -11px;
+    }
+    
+    /* Reduce brain wave decoration size */
+    .brain-wave::after {
+        font-size: 12px;
+        right: -30px;
+    }
+    
+    /* Optimize influencer card effects for mobile */
+    .influencer-card-enhanced:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+    
+    /* Reduce asymmetric offset on mobile */
+    .asymmetric-grid > *:nth-child(2n) {
+        transform: translateY(10px);
+    }
+    
+    .asymmetric-grid > *:nth-child(3n) {
+        transform: translateY(20px);
+    }
+    
+    /* Optimize electric button effects */
+    .electric-cta::before {
+        left: -15px;
+        font-size: 14px;
+    }
 }
 
 /* ============== ENHANCED FORM STYLES ============== */
@@ -1560,6 +1612,306 @@ button:focus, a:focus {
     .py-12 {
         padding-top: 3rem;
         padding-bottom: 3rem;
+    }
+}
+
+/* ============== GEEK-CHIC ENHANCEMENTS ============== */
+
+/* Digital Soul Animation - Floating particles */
+@keyframes digitalParticles {
+    0% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) translateX(20px);
+        opacity: 0;
+    }
+}
+
+@keyframes electricPulse {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--accent-electric), 0 0 10px var(--accent-electric), 0 0 15px var(--accent-electric);
+    }
+    50% {
+        box-shadow: 0 0 10px var(--accent-electric), 0 0 20px var(--accent-electric), 0 0 30px var(--accent-electric);
+    }
+}
+
+@keyframes codeTransform {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+}
+
+/* Enhanced headings with geek-chic personality */
+.geek-chic-heading {
+    position: relative;
+    background: linear-gradient(135deg, var(--accent-electric) 0%, var(--accent-violet) 50%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+.geek-chic-heading::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--accent-electric), var(--accent-violet), var(--accent-magenta));
+    border-radius: 8px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.geek-chic-heading:hover::before {
+    opacity: 0.1;
+}
+
+/* Digital particles container */
+.digital-particles {
+    position: relative;
+    overflow: hidden;
+}
+
+.digital-particles::before {
+    content: '⬢ ◊ ▲ ● ◆ ⬟';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    color: var(--accent-electric);
+    opacity: 0.2;
+    animation: digitalParticles 4s infinite linear;
+    pointer-events: none;
+    letter-spacing: 30px;
+    word-spacing: 50px;
+    z-index: 1;
+}
+
+/* Circuit-like decorative elements */
+.circuit-decoration::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(90deg, var(--accent-electric), var(--accent-violet));
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+}
+
+.circuit-decoration::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-magenta);
+    border-radius: 50%;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--accent-magenta);
+    animation: electricPulse 2s infinite;
+}
+
+/* Enhanced influencer grid with geek-chic effects */
+.influencer-card-enhanced {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.influencer-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--accent-blue), var(--accent-violet), var(--accent-magenta), var(--accent-electric));
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background-size: 300% 300%;
+    animation: codeTransform 3s ease-in-out infinite;
+}
+
+.influencer-card-enhanced:hover::before {
+    opacity: 0.3;
+}
+
+.influencer-card-enhanced:hover {
+    transform: translateY(-8px) scale(1.05);
+    filter: drop-shadow(0 10px 25px rgba(0, 212, 255, 0.2));
+}
+
+/* Asymmetric grid layout for more dynamic feel */
+.asymmetric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    align-items: start;
+}
+
+.asymmetric-grid > *:nth-child(2n) {
+    transform: translateY(20px);
+}
+
+.asymmetric-grid > *:nth-child(3n) {
+    transform: translateY(40px);
+}
+
+/* Electric button enhancements */
+.electric-cta {
+    position: relative;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-electric) 100%);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.electric-cta:hover {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+}
+
+.electric-cta::before {
+    content: '{ }';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-violet);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.electric-cta:hover::before {
+    opacity: 0.7;
+}
+
+/* Brain wave decoration for AI sections */
+.brain-wave::after {
+    content: '〰️ 🧠 ⚡';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+    font-size: 14px;
+    animation: codeTransform 4s ease-in-out infinite;
+}
+
+/* Sparkle effect for special elements */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.sparkle-effect::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    font-size: 16px;
+    animation: sparkle 3s ease-in-out infinite;
+    z-index: 10;
+}
+
+/* Data stream effect for tech sections */
+@keyframes dataStream {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    20%, 80% {
+        opacity: 0.7;
+        transform: translateX(0%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.data-stream::before {
+    content: '01010101 11001001 10110010';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 8px;
+    color: var(--accent-electric);
+    opacity: 0.1;
+    animation: dataStream 8s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+    letter-spacing: 2px;
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+/* Enhanced glow effects for CTA sections */
+.enhanced-glow {
+    position: relative;
+}
+
+.enhanced-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    animation: electricPulse 4s ease-in-out infinite;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+/* Improved mobile experience */
+@media (max-width: 640px) {
+    .sparkle-effect::after {
+        font-size: 12px;
+        top: -8px;
+        right: -12px;
+    }
+    
+    .data-stream::before {
+        font-size: 6px;
+        letter-spacing: 1px;
     }
 }
 }
