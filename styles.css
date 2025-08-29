@@ -1321,24 +1321,23 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         transform: translateY(0);
     }
     
-    /* Mobile responsive grid layout - 2 columns for small mobile, 3 for larger mobile */
+/* Mobile responsive grid layout - 2 columns for small mobile, 3 for larger mobile */
+.asymmetric-grid {
+    gap: 1rem;
+    /* Small mobile: 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Medium/large mobile: 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
     .asymmetric-grid {
-        gap: 1rem;
-        /* Small mobile: 2 columns */
-        grid-template-columns: repeat(2, 1fr);
-        padding: 0 1rem;
-        max-width: 100%;
-        overflow-x: hidden;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
     }
-    
-    /* Medium/large mobile: 3 columns */
-    @media (min-width: 481px) and (max-width: 768px) {
-        .asymmetric-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.8rem;
-        }
-    }
-    
+}
     /* Ensure influencer cards don't exceed container */
     .asymmetric-grid > * {
         max-width: 100%;
@@ -1614,6 +1613,19 @@ input:focus, textarea:focus {
     nav .hidden {
         display: none;
     }
+    
+    /* Conversion section mobile typography optimization */
+    #conversion h2 {
+        font-size: 2rem !important; /* Reduce from text-5xl to better mobile proportion */
+        line-height: 1.2;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    #conversion p {
+        font-size: 1.125rem !important; /* Reduce from text-2xl to text-lg equivalent */
+        line-height: 1.6;
+        margin-bottom: 2rem !important;
+    }
 }
 
 /* Enhanced CTA buttons */
@@ -1823,6 +1835,7 @@ button:focus, a:focus {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     align-items: start;
+    overflow: visible; /* Ensure no internal scroll */
 }
 
 .asymmetric-grid > *:nth-child(2n) {
@@ -1831,6 +1844,46 @@ button:focus, a:focus {
 
 .asymmetric-grid > *:nth-child(3n) {
     transform: translateY(40px);
+}
+
+/* ============== RESPONSIVE GRID BREAKPOINTS ============== */
+
+/* Small mobile (320px-480px): 2 photos per row */
+@media (max-width: 480px) {
+    .asymmetric-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .asymmetric-grid > *:nth-child(2n) {
+        transform: translateY(0);
+    }
+    
+    .asymmetric-grid > *:nth-child(3n) {
+        transform: translateY(0);
+    }
+}
+
+/* Large mobile (481px-768px): 3 photos per row */
+@media (min-width: 481px) and (max-width: 768px) {
+    .asymmetric-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        padding: 0 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .asymmetric-grid > *:nth-child(2n) {
+        transform: translateY(0);
+    }
+    
+    .asymmetric-grid > *:nth-child(3n) {
+        transform: translateY(0);
+    }
 }
 
 /* Electric button enhancements */
