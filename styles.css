@@ -1303,6 +1303,8 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         gap: 1.5rem;
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
+
+    }
     
     /* Optimize electric button effects */
     .electric-cta::before {
