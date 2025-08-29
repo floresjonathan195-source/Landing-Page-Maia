@@ -23,10 +23,27 @@
     --disabled-text: #A0AEC0;      /* Texto para botones deshabilitados */
 }
 
+/* Prevent horizontal scrolling on mobile */
+html {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--primary-dark);
     color: var(--primary-text);
+    overflow-x: hidden;
+}
+
+/* Ensure all main containers respect viewport width */
+main, header, section, .max-w-6xl {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Universal box-sizing for better responsive control */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 /* Clases de Tailwind modificadas */
@@ -1248,6 +1265,12 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
 
 /* Mobile optimizations for geek-chic effects */
 @media (max-width: 768px) {
+    /* Prevent any horizontal overflow on mobile */
+    body, main, header, section, div {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+    
     /* Reduce particle density on mobile for better performance */
     .digital-particles::before {
         font-size: 10px;
@@ -1298,13 +1321,21 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         transform: translateY(0);
     }
     
-    /* Ensure consistent grid spacing on mobile */
+    /* Ensure consistent grid spacing on mobile with proper constraints */
     .asymmetric-grid {
-        gap: 1.5rem;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        padding: 0 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
     }
-
+    
+    /* Ensure influencer cards don't exceed container */
+    .asymmetric-grid > * {
+        max-width: 100%;
+        overflow: hidden;
     }
+}
     
     /* Optimize electric button effects */
     .electric-cta::before {
