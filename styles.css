@@ -54,6 +54,16 @@ main, header, section, .max-w-6xl {
 .text-secondary-text { color: var(--secondary-text); }
 .text-accent-magenta { color: var(--accent-gold); } /* Reemplazado Magenta por Dorado */
 .text-accent-cyan { color: var(--accent-blue); }  /* Reemplazado Cyan por Azul */
+.text-accent-gold { color: var(--accent-gold); }
+
+/* Title gradient class for blue-purple gradient effect */
+.title-gradient {
+    background: linear-gradient(135deg, #58A6FF, #A855F7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
 
 /* Navegación y botones de CTA */
 .nav-button.active {
