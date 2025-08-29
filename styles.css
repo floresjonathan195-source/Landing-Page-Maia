@@ -1246,15 +1246,63 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
 }
 }
 
-/* Enhanced influencer card styles (without checkbox integration) */
-.influencer-card {
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.influencer-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+/* Mobile optimizations for geek-chic effects */
+@media (max-width: 768px) {
+    /* Reduce particle density on mobile for better performance */
+    .digital-particles::before {
+        font-size: 10px;
+        letter-spacing: 20px;
+        word-spacing: 30px;
+        animation-duration: 6s;
+    }
+    
+    /* Simplify gradient text for mobile performance */
+    .geek-chic-heading {
+        background: linear-gradient(135deg, var(--accent-electric) 0%, var(--accent-gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    /* Optimize circuit decorations for mobile */
+    .circuit-decoration::after {
+        width: 1px;
+        height: 15px;
+        right: -8px;
+    }
+    
+    .circuit-decoration::before {
+        width: 6px;
+        height: 6px;
+        right: -11px;
+    }
+    
+    /* Reduce brain wave decoration size */
+    .brain-wave::after {
+        font-size: 12px;
+        right: -30px;
+    }
+    
+    /* Optimize influencer card effects for mobile */
+    .influencer-card-enhanced:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+    
+    /* Reduce asymmetric offset on mobile */
+    .asymmetric-grid > *:nth-child(2n) {
+        transform: translateY(10px);
+    }
+    
+    .asymmetric-grid > *:nth-child(3n) {
+        transform: translateY(20px);
+    }
+    
+    /* Optimize electric button effects */
+    .electric-cta::before {
+        left: -15px;
+        font-size: 14px;
+    }
 }
 
 /* ============== ENHANCED FORM STYLES ============== */
@@ -1776,5 +1824,94 @@ button:focus, a:focus {
     opacity: 0.6;
     font-size: 14px;
     animation: codeTransform 4s ease-in-out infinite;
+}
+
+/* Sparkle effect for special elements */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.sparkle-effect::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    font-size: 16px;
+    animation: sparkle 3s ease-in-out infinite;
+    z-index: 10;
+}
+
+/* Data stream effect for tech sections */
+@keyframes dataStream {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    20%, 80% {
+        opacity: 0.7;
+        transform: translateX(0%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.data-stream::before {
+    content: '01010101 11001001 10110010';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 8px;
+    color: var(--accent-electric);
+    opacity: 0.1;
+    animation: dataStream 8s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+    letter-spacing: 2px;
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+/* Enhanced glow effects for CTA sections */
+.enhanced-glow {
+    position: relative;
+}
+
+.enhanced-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    animation: electricPulse 4s ease-in-out infinite;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+/* Improved mobile experience */
+@media (max-width: 640px) {
+    .sparkle-effect::after {
+        font-size: 12px;
+        top: -8px;
+        right: -12px;
+    }
+    
+    .data-stream::before {
+        font-size: 6px;
+        letter-spacing: 1px;
+    }
 }
 }
