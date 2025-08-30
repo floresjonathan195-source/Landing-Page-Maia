@@ -1,4 +1,23 @@
 /* ============== INICIO: Contenido para: styles.css (Paleta "Aurora Dorada") ============== */
+
+/* ============== SELF-HOSTED VARIABLE FONTS ============== */
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('./fonts/space-grotesk/SpaceGrotesk-VariableFont_wght.woff2') format('woff2-variations');
+    font-weight: 300 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Serif';
+    src: url('./fonts/ibm-plex-serif/IBMPlexSerif-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+/* Fallback Google Fonts import for compatibility */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
 /* Paleta "Aurora Dorada": Elegancia y Tecnología + Geek-Chic */
@@ -29,7 +48,8 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Serif', 'Inter', serif;
+    font-weight: 400;
     background-color: var(--primary-dark);
     color: var(--primary-text);
     overflow-x: hidden;
@@ -63,6 +83,39 @@ main, header, section, .max-w-6xl {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+}
+
+/* ============== TYPOGRAPHY HIERARCHY ============== */
+/* Headings use Space Grotesk variable font */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+h1 {
+    font-weight: 600; /* SemiBold */
+}
+
+h2 {
+    font-weight: 500; /* Medium */
+}
+
+h3 {
+    font-weight: 400; /* Regular */
+}
+
+/* Body text emphasis */
+p {
+    font-family: 'IBM Plex Serif', 'Inter', serif;
+    font-weight: 400; /* Regular */
+}
+
+strong {
+    font-weight: 700; /* Bold */
+}
+
+em {
+    font-style: italic;
 }
 
 /* Navegación y botones de CTA */
@@ -1322,39 +1375,6 @@ tbody { background-color: var(--secondary-dark); color: var(--secondary-text); }
         transform: translateY(-4px) scale(1.02);
     }
     
-    /* Remove asymmetric offset on mobile for consistent spacing */
-    .asymmetric-grid > *:nth-child(2n) {
-        transform: translateY(0);
-    }
-    
-    .asymmetric-grid > *:nth-child(3n) {
-        transform: translateY(0);
-    }
-    
-/* Mobile responsive grid layout - 2 columns for small mobile, 3 for larger mobile */
-.asymmetric-grid {
-    gap: 1rem;
-    /* Small mobile: 2 columns */
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 1rem;
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-/* Medium/large mobile: 3 columns */
-@media (min-width: 481px) and (max-width: 768px) {
-    .asymmetric-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
-    }
-}
-    /* Ensure influencer cards don't exceed container */
-    .asymmetric-grid > * {
-        max-width: 100%;
-        overflow: hidden;
-    }
-}
-
 /* ============== ENHANCED FORM STYLES ============== */
 /* Contact form enhancements */
 .contact-form input:focus,
@@ -1832,21 +1852,21 @@ button:focus, a:focus {
     filter: drop-shadow(0 10px 25px rgba(0, 212, 255, 0.2));
 }
 
-/* Asymmetric grid layout for more dynamic feel */
+/* ============== INFLUENCER GRID - PROPER 3-COLUMN LAYOUT ============== */
 .asymmetric-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    align-items: start;
+    align-items: center;
+    justify-items: center;
+    max-width: 100%;
     overflow: visible; /* Ensure no internal scroll */
 }
 
-.asymmetric-grid > *:nth-child(2n) {
-    transform: translateY(20px);
-}
-
+/* Remove asymmetric transforms for uniform alignment */
+.asymmetric-grid > *:nth-child(2n),
 .asymmetric-grid > *:nth-child(3n) {
-    transform: translateY(40px);
+    transform: none;
 }
 
 /* ============== RESPONSIVE GRID BREAKPOINTS ============== */
@@ -1857,35 +1877,15 @@ button:focus, a:focus {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
         padding: 0 1rem;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-    
-    .asymmetric-grid > *:nth-child(2n) {
-        transform: translateY(0);
-    }
-    
-    .asymmetric-grid > *:nth-child(3n) {
-        transform: translateY(0);
     }
 }
 
-/* Large mobile (481px-768px): 3 photos per row */
-@media (min-width: 481px) and (max-width: 768px) {
+/* Medium mobile and up (481px+): 3 photos per row */
+@media (min-width: 481px) {
     .asymmetric-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
+        gap: 2rem;
         padding: 0 1rem;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-    
-    .asymmetric-grid > *:nth-child(2n) {
-        transform: translateY(0);
-    }
-    
-    .asymmetric-grid > *:nth-child(3n) {
-        transform: translateY(0);
     }
 }
 
