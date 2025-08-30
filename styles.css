@@ -1888,15 +1888,48 @@ button:focus, a:focus {
     filter: drop-shadow(0 10px 25px rgba(0, 212, 255, 0.2));
 }
 
+/* ============== NAVIGATION BUTTON ALIGNMENT FIX ============== */
+/* Ensure "Únete" button aligns properly with other nav links */
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: 2.5rem; /* Fixed height for all nav links */
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+/* Specific styling for the CTA button to maintain visual distinction while keeping alignment */
+.nav-link.bg-accent-blue {
+    padding: 0.5rem 1rem; /* Equivalent to py-2 px-4 but ensures consistent height */
+    border-radius: 0.5rem;
+    background-color: var(--accent-blue);
+    color: white;
+    font-weight: 600;
+}
+
+.nav-link.bg-accent-blue:hover {
+    background-color: var(--accent-blue-hover);
+    transform: none; /* Prevent any transform that might affect alignment */
+}
+
 /* ============== INFLUENCER GRID - PROPER 3-COLUMN LAYOUT ============== */
 .asymmetric-grid {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     align-items: center;
     justify-items: center;
     max-width: 100%;
     overflow: visible; /* Ensure no internal scroll */
+}
+
+/* Specific override for the inspiration grid to ensure it applies */
+#inspirationInfluencersGrid.asymmetric-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
 }
 
 /* Remove asymmetric transforms for uniform alignment */
@@ -1909,8 +1942,9 @@ button:focus, a:focus {
 
 /* Small mobile (320px-480px): 2 photos per row */
 @media (max-width: 480px) {
-    .asymmetric-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .asymmetric-grid,
+    #inspirationInfluencersGrid.asymmetric-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 1rem;
         padding: 0 1rem;
     }
@@ -1918,8 +1952,9 @@ button:focus, a:focus {
 
 /* Medium mobile and up (481px+): 3 photos per row */
 @media (min-width: 481px) {
-    .asymmetric-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .asymmetric-grid,
+    #inspirationInfluencersGrid.asymmetric-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 2rem;
         padding: 0 1rem;
     }

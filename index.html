@@ -263,7 +263,7 @@
                 </p>
                 
                 <!-- Cuadrícula de Influencers (16 perfiles) -->
-                <div id="inspirationInfluencersGrid" class="asymmetric-grid max-w-6xl mx-auto">
+                <div id="inspirationInfluencersGrid" class="asymmetric-grid max-w-6xl mx-auto" style="display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 2rem; align-items: center; justify-items: center;">
                     <!-- Los 16 influencers reales se cargarán dinámicamente desde influencers_data.json -->
                 </div>
                 
@@ -530,7 +530,9 @@
                         if (targetElement) {
                             const navElement = document.querySelector('nav');
                             const navHeight = navElement ? navElement.offsetHeight : 0;
-                            const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                            // Use offsetTop instead of getBoundingClientRect to get absolute position
+                            // Then subtract nav height and add small padding for better positioning
+                            const offsetPosition = targetElement.offsetTop - navHeight - 10;
                             
                             window.scrollTo({
                                 top: offsetPosition,
@@ -730,7 +732,8 @@
                 
                 if (targetElement) {
                     const navHeight = navElement ? navElement.offsetHeight : 0;
-                    const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                    // Use offsetTop instead of getBoundingClientRect to get absolute position
+                    const offsetPosition = targetElement.offsetTop - navHeight - 10;
                     
                     window.scrollTo({
                         top: offsetPosition,
