@@ -1888,6 +1888,30 @@ button:focus, a:focus {
     filter: drop-shadow(0 10px 25px rgba(0, 212, 255, 0.2));
 }
 
+/* ============== NAVIGATION BUTTON ALIGNMENT FIX ============== */
+/* Ensure "Únete" button aligns properly with other nav links */
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: 2.5rem; /* Fixed height for all nav links */
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+/* Specific styling for the CTA button to maintain visual distinction while keeping alignment */
+.nav-link.bg-accent-blue {
+    padding: 0.5rem 1rem; /* Equivalent to py-2 px-4 but ensures consistent height */
+    border-radius: 0.5rem;
+    background-color: var(--accent-blue);
+    color: white;
+    font-weight: 600;
+}
+
+.nav-link.bg-accent-blue:hover {
+    background-color: var(--accent-blue-hover);
+    transform: none; /* Prevent any transform that might affect alignment */
+}
+
 /* ============== INFLUENCER GRID - PROPER 3-COLUMN LAYOUT ============== */
 .asymmetric-grid {
     display: grid !important;
